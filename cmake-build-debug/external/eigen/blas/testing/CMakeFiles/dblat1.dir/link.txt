@@ -1,0 +1,1 @@
+/usr/bin/gfortran   -g CMakeFiles/dblat1.dir/dblat1.f.o  -o dblat1 -Wl,-rpath,/home/bq2139/Documents/ogl/cmake-build-debug/external/eigen/blas ../libeigen_blas.so 
