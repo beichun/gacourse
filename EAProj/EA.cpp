@@ -24,11 +24,11 @@ const int c = 1;
 //define some parameters of cubes
 const double Length = 0.1;
 
-typedef Eigen::Array<double,Eigen::Dynamic,3,Eigen::RowMajor> Matrix3d;
-typedef Eigen::Array<double,Eigen::Dynamic,2,Eigen::RowMajor> Matrix2d;
+typedef Eigen::Array<double,Eigen::Dynamic,3,Eigen::RowMajor> ArrayX3dRowMajor;
+typedef Eigen::Array<double,Eigen::Dynamic,2,Eigen::RowMajor> ArrayX2dRowMajor;
 
-Matrix2d initBaseSpringtoMass() {
-    Matrix2d baseSpringtoMass(28,2);
+ArrayX2dRowMajor initBaseSpringtoMass() {
+    ArrayX2dRowMajor baseSpringtoMass(28,2);
     baseSpringtoMass <<
         //12 edges
         0, 1,
@@ -64,8 +64,8 @@ Matrix2d initBaseSpringtoMass() {
     return baseSpringtoMass;
 }
 
-Matrix3d initBaseMassPosition(){
-    Matrix3d baseMassPosition(8,3);
+ArrayX3dRowMajor initBaseMassPosition(){
+    ArrayX3dRowMajor baseMassPosition(8,3);
     int mass_index = 0;
     for(int i=0;i<2;i++){
         for(int j=0;j<2;j++){
@@ -80,8 +80,8 @@ Matrix3d initBaseMassPosition(){
     return baseMassPosition;
 }
 
-Matrix3d initMassPosition(){
-    Matrix3d massPosition((a+1)*(b+1)*(c+1),3);
+ArrayX3dRowMajor initMassPosition(){
+    ArrayX3dRowMajor massPosition((a+1)*(b+1)*(c+1),3);
     int mass_index = 0;
     for(int i=0;i<c+1;i++){
         for(int j=0;j<b+1;j++){
@@ -96,8 +96,8 @@ Matrix3d initMassPosition(){
     return massPosition;
 }
 
-Matrix3d initMassVelocity(){
-    Matrix3d massVelocity((a+1)*(b+1)*(c+1),3);
+ArrayX3dRowMajor initMassVelocity(){
+    ArrayX3dRowMajor massVelocity((a+1)*(b+1)*(c+1),3);
     for(int i=0;i<(a+1)*(b+1)*(c+1);i++){
         massVelocity.row(i) << 0,0,0;
     }
@@ -105,8 +105,8 @@ Matrix3d initMassVelocity(){
     return massVelocity;
 }
 
-Matrix3d initMassAcceleration(){
-    Matrix3d massAcceleration((a+1)*(b+1)*(c+1),3);
+ArrayX3dRowMajor initMassAcceleration(){
+    ArrayX3dRowMajor massAcceleration((a+1)*(b+1)*(c+1),3);
     for(int i=0;i<(a+1)*(b+1)*(c+1);i++){
         massAcceleration.row(i) << 0,0,0;
     }
@@ -114,14 +114,14 @@ Matrix3d initMassAcceleration(){
     return massAcceleration;
 }
 
-Matrix3d baseMassPosition = initBaseMassPosition();
-Matrix3d massPosition = initMassPosition();
-Matrix3d massVelocity = initMassVelocity();
-Matrix3d massAcceleration = initMassAcceleration();
-Matrix2d baseSpringtoMass = initBaseSpringtoMass();
+ArrayX3dRowMajor baseMassPosition = initBaseMassPosition();
+ArrayX3dRowMajor massPosition = initMassPosition();
+ArrayX3dRowMajor massVelocity = initMassVelocity();
+ArrayX3dRowMajor massAcceleration = initMassAcceleration();
+ArrayX2dRowMajor baseSpringtoMass = initBaseSpringtoMass();
 
-Matrix2d initSpringtoMass(){
-    Matrix2d springtoMass(28*a*b*c,2);
+ArrayX2dRowMajor initSpringtoMass(){
+    ArrayX2dRowMajor springtoMass(28*a*b*c,2);
     for(int i=0;i<28*a*b*c;i++) {
         int cube_index = i / 28;
         //std::cout<<cube_index<<"cube_index"<<i<<std::endl;
@@ -144,13 +144,9 @@ Matrix2d initSpringtoMass(){
     return springtoMass;
 }
 
-Matrix2d springtoMass = initSpringtoMass();
+ArrayX2dRowMajor springtoMass = initSpringtoMass();
 
-int main() {
-
-#pragma omp parallel
-    printf("Hello, world.\n");
-
+int render(){
     // Initialise GLFW
     glewExperimental = true; // Needed for core profile
     if( !glfwInit() )
@@ -199,6 +195,23 @@ int main() {
     } // Check if the ESC key was pressed or the window was closed
     while( glfwGetKey(window, GLFW_KEY_ESCAPE ) != GLFW_PRESS &&
            glfwWindowShouldClose(window) == 0 );
- 
+
+    return 0;
+}
+
+int main() {
+
+#pragma omp parallel
+    printf("Hello, world.\n");
+    // initialize the structure
+
+    // simulate it get the fitness
+
+    // render this in glfw
+    render();
+
+
+
+
 	return 0;
 }
