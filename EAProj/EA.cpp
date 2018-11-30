@@ -21,15 +21,32 @@
 GLFWwindow* window;
 
 //define object shape
-const int a = 1;
+const int a = 3;
 const int b = 1;
 const int c = 1;
 
 //define some parameters of cubes
 const double Length = 0.1;
 
+/*Eigen::VectorXd initCubeVertex(){
+    Eigen::VectorXd cubeVertex;
+    cubeVertex <<
+        0,
+        1,
+        a,
+        a+1,
+        (a+1)*(b+1),
+        (a+1)*(b+1)+1,
+        (a+1)*(b+1)+a,
+        (a+1)*(b+1)+a+1;
+    return cubeVertex;
+}
+
+Eigen::VectorXd cubeVertex = initCubeVertex();*/
+
 typedef Eigen::Array<double,Eigen::Dynamic,3,Eigen::RowMajor> ArrayX3dRowMajor;
 typedef Eigen::Array<double,Eigen::Dynamic,2,Eigen::RowMajor> ArrayX2dRowMajor;
+
 
 ArrayX2dRowMajor initBaseSpringtoMass() {
     ArrayX2dRowMajor baseSpringtoMass(28,2);
@@ -118,11 +135,21 @@ ArrayX3dRowMajor initMassAcceleration(){
     return massAcceleration;
 }
 
+ArrayX3dRowMajor initMassForces(){
+    ArrayX3dRowMajor massForces((a+1)*(b+1)*(c+1),3);
+    for(int i=0;i<(a+1)*(b+1)*(c+1);i++) {
+        massForces.row(i) << 0, 0, 0;
+    }
+    //std::cout<<massForces<<std::endl;
+    return massForces;
+}
+
 ArrayX3dRowMajor baseMassPosition = initBaseMassPosition();
 ArrayX3dRowMajor massPosition = initMassPosition();
 ArrayX3dRowMajor massVelocity = initMassVelocity();
 ArrayX3dRowMajor massAcceleration = initMassAcceleration();
 ArrayX2dRowMajor baseSpringtoMass = initBaseSpringtoMass();
+ArrayX3dRowMajor massForces = initMassForces();
 
 ArrayX2dRowMajor initSpringtoMass(){
     ArrayX2dRowMajor springtoMass(28*a*b*c,2);
@@ -188,7 +215,10 @@ int render(){
     glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
 
     // Dark blue background
-    glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
+    //glClearColor(0, 0, 0.4, 0.0f);
+    //or green color
+    glClearColor(0.2, 0.8, 0.2, 0.0f);
+
 
     // Enable depth test
     glEnable(GL_DEPTH_TEST);
@@ -209,7 +239,8 @@ int render(){
     glm::mat4 Projection = glm::perspective(glm::radians(45.0f), 4.0f / 3.0f, 0.1f, 100.0f);
     // Camera matrix
     glm::mat4 View       = glm::lookAt(
-            glm::vec3(4,3,-3), // Camera is at (4,3,-3), in World Space
+            //glm::vec3(4,3,-3), // Camera is at (4,3,-3), in World Space
+            glm::vec3(20,15,-15),
             glm::vec3(0,0,0), // and looks at the origin
             glm::vec3(0,1,0)  // Head is up (set to 0,-1,0 to look upside-down)
     );
@@ -220,51 +251,21 @@ int render(){
 
     // Our vertices. Tree consecutive floats give a 3D vertex; Three consecutive vertices give a triangle.
     // A cube has 6 faces with 2 triangles each, so this makes 6*2=12 triangles, and 12*3 vertices
-    static const GLfloat g_vertex_buffer_data[] = {
-            -1.0f,-1.0f,-1.0f,
-            -1.0f,-1.0f, 1.0f,
-            -1.0f, 1.0f, 1.0f,
-            1.0f, 1.0f,-1.0f,
-            -1.0f,-1.0f,-1.0f,
-            -1.0f, 1.0f,-1.0f,
-            1.0f,-1.0f, 1.0f,
-            -1.0f,-1.0f,-1.0f,
-            1.0f,-1.0f,-1.0f,
-            1.0f, 1.0f,-1.0f,
-            1.0f,-1.0f,-1.0f,
-            -1.0f,-1.0f,-1.0f,
-            -1.0f,-1.0f,-1.0f,
-            -1.0f, 1.0f, 1.0f,
-            -1.0f, 1.0f,-1.0f,
-            1.0f,-1.0f, 1.0f,
-            -1.0f,-1.0f, 1.0f,
-            -1.0f,-1.0f,-1.0f,
-            -1.0f, 1.0f, 1.0f,
-            -1.0f,-1.0f, 1.0f,
-            1.0f,-1.0f, 1.0f,
-            1.0f, 1.0f, 1.0f,
-            1.0f,-1.0f,-1.0f,
-            1.0f, 1.0f,-1.0f,
-            1.0f,-1.0f,-1.0f,
-            1.0f, 1.0f, 1.0f,
-            1.0f,-1.0f, 1.0f,
-            1.0f, 1.0f, 1.0f,
-            1.0f, 1.0f,-1.0f,
-            -1.0f, 1.0f,-1.0f,
-            1.0f, 1.0f, 1.0f,
-            -1.0f, 1.0f,-1.0f,
-            -1.0f, 1.0f, 1.0f,
-            1.0f, 1.0f, 1.0f,
-            -1.0f, 1.0f, 1.0f,
-            1.0f,-1.0f, 1.0f
-    };
+    GLdouble g_vertex_buffer_data[12*3*3];
+    int k = 0;
+    //draw 36 vertices
+    for (int i=0;i<36;i++){
+        g_vertex_buffer_data[3*i+0] = massPosition(i,0);
+        g_vertex_buffer_data[3*i+1] = massPosition(i,1);
+        g_vertex_buffer_data[3*i+2] = massPosition(i,2);
+    }
 
     // One color for each vertex. They were generated randomly.
     static const GLfloat g_color_buffer_data[] = {
             0.583f,  0.771f,  0.014f,
             0.609f,  0.115f,  0.436f,
             0.327f,  0.483f,  0.844f,
-            0.822f,  0.569f,  0.201f,
+            /*0.822f,  0.569f,  0.201f,
             0.435f,  0.602f,  0.223f,
             0.310f,  0.747f,  0.185f,
             0.597f,  0.770f,  0.761f,
@@ -296,7 +297,7 @@ int render(){
             0.393f,  0.621f,  0.362f,
             0.673f,  0.211f,  0.457f,
             0.820f,  0.883f,  0.371f,
-            0.982f,  0.099f,  0.879f
+            0.982f,  0.099f,  0.879f*/
     };
 
     GLuint vertexbuffer;
@@ -372,18 +373,14 @@ int render(){
 }
 
 int main() {
-
-    #pragma omp parallel
-    printf("Hello, world.\n");
+    /*#pragma omp parallel
+    printf("Hello, world.\n");*/
     // initialize the structure
 
     // simulate it get the fitness
 
     // render this in glfw
     render();
-
-
-
 
 	return 0;
 }
