@@ -6,6 +6,7 @@
 #include <iostream>
 
 #include <Eigen/Dense>
+
 // Include GLEW
 #include <GL/glew.h>
 
@@ -13,6 +14,8 @@
 #include <GLFW/glfw3.h>
 
 #include <common/shader.hpp>
+#include <common/texture.hpp>
+//#include <common/controls.hpp>
 
 // Include GLM
 #include <glm/glm.hpp>
@@ -21,28 +24,41 @@
 GLFWwindow* window;
 
 //define object shape
-const int a = 3;
+const int a = 1;
 const int b = 1;
 const int c = 1;
 
 //define some parameters of cubes
 const double Length = 0.1;
 
-/*Eigen::VectorXd initCubeVertex(){
-    Eigen::VectorXd cubeVertex;
+Eigen::VectorXi initCubeVertex(){
+    Eigen::VectorXi cubeVertex(8);
     cubeVertex <<
         0,
         1,
-        a,
         a+1,
+        a+2,
         (a+1)*(b+1),
         (a+1)*(b+1)+1,
-        (a+1)*(b+1)+a,
-        (a+1)*(b+1)+a+1;
+        (a+1)*(b+1)+a+1,
+        (a+1)*(b+1)+a+2;
     return cubeVertex;
 }
 
-Eigen::VectorXd cubeVertex = initCubeVertex();*/
+Eigen::VectorXi initTriangleVertex(){
+    Eigen::VectorXi triangleVertex(36);
+    triangleVertex <<
+        0,1,2,3,1,2,
+        4,5,6,7,5,6,
+        1,3,7,1,5,7,
+        0,2,6,0,4,6,
+        7,3,2,7,6,2,
+        5,1,0,5,4,0;
+    return triangleVertex;
+}
+
+Eigen::VectorXi cubeVertex = initCubeVertex();
+Eigen::VectorXi triangleVertex = initTriangleVertex();
 
 typedef Eigen::Array<double,Eigen::Dynamic,3,Eigen::RowMajor> ArrayX3dRowMajor;
 typedef Eigen::Array<double,Eigen::Dynamic,2,Eigen::RowMajor> ArrayX2dRowMajor;
@@ -240,7 +256,7 @@ int render(){
     // Camera matrix
     glm::mat4 View       = glm::lookAt(
             //glm::vec3(4,3,-3), // Camera is at (4,3,-3), in World Space
-            glm::vec3(20,15,-15),
+            glm::vec3(40,10,-10),
             glm::vec3(0,0,0), // and looks at the origin
             glm::vec3(0,1,0)  // Head is up (set to 0,-1,0 to look upside-down)
     );
@@ -251,21 +267,26 @@ int render(){
 
     // Our vertices. Tree consecutive floats give a 3D vertex; Three consecutive vertices give a triangle.
     // A cube has 6 faces with 2 triangles each, so this makes 6*2=12 triangles, and 12*3 vertices
-    GLdouble g_vertex_buffer_data[12*3*3];
-    int k = 0;
+    int k = 3;
+    GLdouble g_vertex_buffer_data[3*k];
     //draw 36 vertices
-    for (int i=0;i<36;i++){
-        g_vertex_buffer_data[3*i+0] = massPosition(i,0);
-        g_vertex_buffer_data[3*i+1] = massPosition(i,1);
-        g_vertex_buffer_data[3*i+2] = massPosition(i,2);
+    for (int i=0;i<k;i++){
+        g_vertex_buffer_data[3*i+0] = massPosition(cubeVertex(triangleVertex(i)),0);
+        g_vertex_buffer_data[3*i+1] = massPosition(cubeVertex(triangleVertex(i)),1);
+        g_vertex_buffer_data[3*i+2] = massPosition(cubeVertex(triangleVertex(i)),2);
+        std::cout<<cubeVertex(triangleVertex(i))<<std::endl;
+        //std::cout<<massPosition(cubeVertex(triangleVertex(i)),0)<<massPosition(cubeVertex(triangleVertex(i)),1)<<massPosition(cubeVertex(triangleVertex(i)),2)<<std::endl;
     }
+    /*for (int i=0;i<3*k;i++){
+        std::cout<<g_vertex_buffer_data[i]<<std::endl;
+    }*/
 
     // One color for each vertex. They were generated randomly.
     static const GLfloat g_color_buffer_data[] = {
             0.583f,  0.771f,  0.014f,
             0.609f,  0.115f,  0.436f,
-            0.327f,  0.483f,  0.844f,
-            /*0.822f,  0.569f,  0.201f,
+            0.327f,  0.483f,  0.844f/*,
+            0.822f,  0.569f,  0.201f,
             0.435f,  0.602f,  0.223f,
             0.310f,  0.747f,  0.185f,
             0.597f,  0.770f,  0.761f,

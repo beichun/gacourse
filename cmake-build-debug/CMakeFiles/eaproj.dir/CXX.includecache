@@ -8,6 +8,8 @@
 
 .././common/shader.hpp
 
+.././common/texture.hpp
+
 ../external/eigen/Eigen/Cholesky
 Core
 ../external/eigen/Eigen/Core
@@ -1910,6 +1912,8 @@ GL/glew.h
 GLFW/glfw3.h
 -
 common/shader.hpp
+-
+common/texture.hpp
 -
 glm/glm.hpp
 -

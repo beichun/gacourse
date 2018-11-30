@@ -1425,10 +1425,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="443a82b3-43bd-4f68-94db-fb98a9235e01" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EAProj/EA.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/EAProj/EA.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/eaproj.dir/EAProj/EA.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/eaproj.dir/EAProj/EA.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/eaproj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/eaproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/eaproj.dir/EAProj/EA.cpp.o" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -1454,7 +1452,7 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="cpp" value="19" />
+          <entry key="cpp" value="20" />
           <entry key="fragmentshader" value="1" />
           <entry key="h" value="1" />
           <entry key="txt" value="3" />
@@ -1464,21 +1462,21 @@
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="CMakeLists.txt" value="3" />
-          <entry key="ObjectiveC" value="19" />
+          <entry key="ObjectiveC" value="20" />
           <entry key="PLAIN_TEXT" value="2" />
           <entry key="Scratch" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="cpp" value="3338" />
+          <entry key="cpp" value="3699" />
           <entry key="txt" value="230" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="CMakeLists.txt" value="197" />
-          <entry key="ObjectiveC" value="3338" />
+          <entry key="ObjectiveC" value="3699" />
           <entry key="PLAIN_TEXT" value="33" />
         </counts>
       </usages-collector>
@@ -1510,12 +1508,27 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/EAProj/EA.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="277">
-              <caret line="256" column="27" lean-forward="true" selection-start-line="256" selection-start-column="27" selection-end-line="256" selection-end-column="27" />
+            <state relative-caret-position="576">
+              <caret line="276" column="60" selection-start-line="276" selection-start-column="60" selection-end-line="276" selection-end-column="60" />
               <folding>
                 <element signature="e#28#46#0" expanded="true" />
-                <element signature="e#190#213#0" expanded="true" />
+                <element signature="e#92#111#0" expanded="true" />
+                <element signature="e#191#214#0" expanded="true" />
                 <element signature="e#260#282#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tutorial06_keyboard_and_mouse/tutorial06.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-2916">
+              <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
+              <folding>
+                <element signature="e#28#46#0" expanded="true" />
+                <element signature="e#182#204#0" expanded="true" />
+                <element signature="e#267#295#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -1585,6 +1598,7 @@
       <find>color</find>
       <find>Matrix2d</find>
       <find>programID</find>
+      <find>computeMatricesFromInputs</find>
     </findStrings>
     <replaceStrings>
       <replace>ArrayX2dRowMajor</replace>
@@ -1600,6 +1614,7 @@
         <option value="$PROJECT_DIR$/external/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
         <option value="$USER_HOME$/GAproj/ms1/cubebreathing/breathing.cpp" />
+        <option value="$PROJECT_DIR$/tutorial06_keyboard_and_mouse/tutorial06.cpp" />
         <option value="$PROJECT_DIR$/EAProj/EA.cpp" />
       </list>
     </option>
@@ -1630,6 +1645,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -1640,12 +1656,17 @@
             <path>
               <item name="Tutorials" type="b2602c69:ProjectViewProjectNode" />
               <item name="ogl" type="462c0819:PsiDirectoryNode" />
-              <item name="EAProj" type="462c0819:PsiDirectoryNode" />
+              <item name="common" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Tutorials" type="b2602c69:ProjectViewProjectNode" />
               <item name="ogl" type="462c0819:PsiDirectoryNode" />
               <item name="tutorial04_colored_cube" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Tutorials" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ogl" type="462c0819:PsiDirectoryNode" />
+              <item name="tutorial06_keyboard_and_mouse" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Tutorials" type="b2602c69:ProjectViewProjectNode" />
@@ -1665,7 +1686,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -8402,7 +8422,7 @@
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="tutorial06_keyboard_and_mouse" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Tutorials" TARGET_NAME="tutorial06_keyboard_and_mouse" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Tutorials" RUN_TARGET_NAME="tutorial06_keyboard_and_mouse">
+    <configuration name="tutorial06_keyboard_and_mouse" type="CMakeRunConfiguration" factoryName="Application" WORKING_DIR="file://$PROJECT_DIR$/tutorial06_keyboard_and_mouse" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Tutorials" TARGET_NAME="tutorial06_keyboard_and_mouse" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Tutorials" RUN_TARGET_NAME="tutorial06_keyboard_and_mouse">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -10195,7 +10215,7 @@
       <workItem from="1543177282329" duration="11063000" />
       <workItem from="1543386321748" duration="3079000" />
       <workItem from="1543443706679" duration="47100000" />
-      <workItem from="1543558830284" duration="1256000" />
+      <workItem from="1543558830284" duration="8323000" />
     </task>
     <task id="LOCAL-00001" summary="add my files">
       <created>1542767417738</created>
@@ -10222,7 +10242,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="92597000" />
+    <option name="totallyTimeSpent" value="99664000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -10238,7 +10258,7 @@
     <editor active="true" />
     <layout>
       <window_info id="Favorites" order="0" sideWeight="0.5007474" side_tool="true" weight="0.18960752" />
-      <window_info content_ui="combo" id="Project" order="1" sideWeight="0.49790794" weight="0.19181868" />
+      <window_info content_ui="combo" id="Project" order="1" sideWeight="0.49790794" visible="true" weight="0.19181868" />
       <window_info id="Structure" order="2" sideWeight="0.50209206" side_tool="true" weight="0.19181868" />
       <window_info anchor="bottom" id="CMake" order="0" weight="0.3294979" />
       <window_info anchor="bottom" id="Terminal" order="1" />
@@ -10385,13 +10405,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/EAProj/EA.cpp">
+    <entry file="file://$PROJECT_DIR$/tutorial06_keyboard_and_mouse/tutorial06.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="277">
-          <caret line="256" column="27" lean-forward="true" selection-start-line="256" selection-start-column="27" selection-end-line="256" selection-end-column="27" />
+        <state relative-caret-position="-2916">
+          <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
           <folding>
             <element signature="e#28#46#0" expanded="true" />
-            <element signature="e#190#213#0" expanded="true" />
+            <element signature="e#182#204#0" expanded="true" />
+            <element signature="e#267#295#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/EAProj/EA.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="576">
+          <caret line="276" column="60" selection-start-line="276" selection-start-column="60" selection-end-line="276" selection-end-column="60" />
+          <folding>
+            <element signature="e#28#46#0" expanded="true" />
+            <element signature="e#92#111#0" expanded="true" />
+            <element signature="e#191#214#0" expanded="true" />
             <element signature="e#260#282#0" expanded="true" />
           </folding>
         </state>

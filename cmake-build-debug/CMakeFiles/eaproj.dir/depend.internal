@@ -3,6 +3,7 @@
 
 CMakeFiles/eaproj.dir/EAProj/EA.cpp.o
  .././common/shader.hpp
+ .././common/texture.hpp
  ../external/eigen/Eigen/Cholesky
  ../external/eigen/Eigen/Core
  ../external/eigen/Eigen/Dense
