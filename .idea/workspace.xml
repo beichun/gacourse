@@ -1469,14 +1469,14 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="cpp" value="3923" />
+          <entry key="cpp" value="4070" />
           <entry key="txt" value="230" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="CMakeLists.txt" value="197" />
-          <entry key="ObjectiveC" value="3923" />
+          <entry key="ObjectiveC" value="4070" />
           <entry key="PLAIN_TEXT" value="33" />
         </counts>
       </usages-collector>
@@ -1508,8 +1508,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/EAProj/EA.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="396">
-              <caret line="274" column="50" selection-start-line="274" selection-start-column="50" selection-end-line="274" selection-end-column="50" />
+            <state relative-caret-position="432">
+              <caret line="273" column="17" selection-start-line="273" selection-start-column="17" selection-end-line="273" selection-end-column="17" />
               <folding>
                 <element signature="e#28#46#0" expanded="true" />
                 <element signature="e#92#111#0" expanded="true" />
@@ -1585,7 +1585,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$USER_HOME$/GAproj/ms1/cubebreathing/breathing.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="558">
+            <state relative-caret-position="-1872">
               <caret line="31" selection-start-line="31" selection-end-line="31" />
             </state>
           </provider>
@@ -1602,6 +1602,7 @@
       <find>Matrix2d</find>
       <find>programID</find>
       <find>computeMatricesFromInputs</find>
+      <find>GL_ARRAY_BUFFER</find>
     </findStrings>
     <replaceStrings>
       <replace>ArrayX2dRowMajor</replace>
@@ -10218,7 +10219,7 @@
       <workItem from="1543177282329" duration="11063000" />
       <workItem from="1543386321748" duration="3079000" />
       <workItem from="1543443706679" duration="47100000" />
-      <workItem from="1543558830284" duration="13634000" />
+      <workItem from="1543558830284" duration="17197000" />
     </task>
     <task id="LOCAL-00001" summary="add my files">
       <created>1542767417738</created>
@@ -10245,7 +10246,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="104975000" />
+    <option name="totallyTimeSpent" value="108538000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -10394,13 +10395,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/GAproj/ms1/cubebreathing/breathing.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="558">
-          <caret line="31" selection-start-line="31" selection-end-line="31" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tutorial04_colored_cube/tutorial04.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="72">
@@ -10423,10 +10417,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$USER_HOME$/GAproj/ms1/cubebreathing/breathing.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1872">
+          <caret line="31" selection-start-line="31" selection-end-line="31" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/EAProj/EA.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="274" column="50" selection-start-line="274" selection-start-column="50" selection-end-line="274" selection-end-column="50" />
+        <state relative-caret-position="432">
+          <caret line="273" column="17" selection-start-line="273" selection-start-column="17" selection-end-line="273" selection-end-column="17" />
           <folding>
             <element signature="e#28#46#0" expanded="true" />
             <element signature="e#92#111#0" expanded="true" />
