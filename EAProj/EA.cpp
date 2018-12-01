@@ -24,9 +24,9 @@
 GLFWwindow* window;
 
 //define object shape
-const int a = 1;
-const int b = 1;
-const int c = 1;
+const int a = 2;
+const int b = 2;
+const int c = 2;
 
 //define some parameters of cubes
 const double Length = 0.1;
@@ -266,25 +266,24 @@ int render(){
     // Our ModelViewProjection : multiplication of our 3 matrices
     glm::mat4 MVP        = Projection * View * Model; // Remember, matrix multiplication is the other way around
 
+
+    int num_cubes = a*b*c;
+    //for (int j=0;j<num_cubes;j++)
+    int k = 10;
     // Our vertices. Tree consecutive floats give a 3D vertex; Three consecutive vertices give a triangle.
     // A cube has 6 faces with 2 triangles each, so this makes 6*2=12 triangles, and 12*3 vertices
-    int k = 36;
-    GLfloat g_vertex_buffer_data[3*k];
+    int num_vertices = 36;
+    GLfloat g_vertex_buffer_data[3*num_vertices];
     //draw 36 vertices
-    for (int i=0;i<k;i++){
-        g_vertex_buffer_data[3*i+0] = float(massPosition(cubeVertex(triangleVertex(i)),0));
-        g_vertex_buffer_data[3*i+1] = float(massPosition(cubeVertex(triangleVertex(i)),1));
-        g_vertex_buffer_data[3*i+2] = float(massPosition(cubeVertex(triangleVertex(i)),2));
-        //std::cout<<cubeVertex(triangleVertex(i))<<std::endl;
+    for (int i=0;i<num_vertices;i++){
+        g_vertex_buffer_data[3*i+0] = float(massPosition(cubeVertex(triangleVertex(i))+k,0));
+        g_vertex_buffer_data[3*i+1] = float(massPosition(cubeVertex(triangleVertex(i))+k,1));
+        g_vertex_buffer_data[3*i+2] = float(massPosition(cubeVertex(triangleVertex(i))+k,2));
         //std::cout<<massPosition(cubeVertex(triangleVertex(i)),0)<<massPosition(cubeVertex(triangleVertex(i)),1)<<massPosition(cubeVertex(triangleVertex(i)),2)<<std::endl;
     }
-    for (int i=0;i<3*k;i++){
-        std::cout<<g_vertex_buffer_data[i]<<std::endl;
-    }
-
 
     // One color for each vertex. They were generated randomly.
-    static const GLfloat g_color_buffer_data[] = {
+    GLfloat g_color_buffer_data[] = {
             0.583f,  0.771f,  0.014f,
             0.609f,  0.115f,  0.436f,
             0.327f,  0.483f,  0.844f,
@@ -328,8 +327,6 @@ int render(){
     glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
 
-    std::cout<<sizeof(g_vertex_buffer_data)<<std::endl;
-    std::cout<<sizeof(g_color_buffer_data)<<std::endl;
 
     GLuint colorbuffer;
     glGenBuffers(1, &colorbuffer);
@@ -402,7 +399,7 @@ int main() {
     /*#pragma omp parallel
     printf("Hello, world.\n");*/
     // initialize the structure
-
+    
     // simulate it get the fitness
 
     // render this in glfw
