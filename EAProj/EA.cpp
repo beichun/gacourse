@@ -160,6 +160,7 @@ ArrayX3dRowMajor initMassForces(){
     return massForces;
 }
 
+
 ArrayX3dRowMajor baseMassPosition = initBaseMassPosition();
 ArrayX3dRowMajor massPosition = initMassPosition();
 ArrayX3dRowMajor massVelocity = initMassVelocity();
@@ -256,7 +257,7 @@ int render(){
     // Camera matrix
     glm::mat4 View       = glm::lookAt(
             //glm::vec3(4,3,-3), // Camera is at (4,3,-3), in World Space
-            glm::vec3(40,10,-10),
+            glm::vec3(0,0,5),
             glm::vec3(0,0,0), // and looks at the origin
             glm::vec3(0,1,0)  // Head is up (set to 0,-1,0 to look upside-down)
     );
@@ -274,19 +275,21 @@ int render(){
         g_vertex_buffer_data[3*i+0] = massPosition(cubeVertex(triangleVertex(i)),0);
         g_vertex_buffer_data[3*i+1] = massPosition(cubeVertex(triangleVertex(i)),1);
         g_vertex_buffer_data[3*i+2] = massPosition(cubeVertex(triangleVertex(i)),2);
-        std::cout<<cubeVertex(triangleVertex(i))<<std::endl;
+        //std::cout<<cubeVertex(triangleVertex(i))<<std::endl;
         //std::cout<<massPosition(cubeVertex(triangleVertex(i)),0)<<massPosition(cubeVertex(triangleVertex(i)),1)<<massPosition(cubeVertex(triangleVertex(i)),2)<<std::endl;
     }
-    /*for (int i=0;i<3*k;i++){
+    for (int i=0;i<3*k;i++){
         std::cout<<g_vertex_buffer_data[i]<<std::endl;
-    }*/
+    }
+
+    std::cout<<baseMassPosition.data()<<std::endl;
 
     // One color for each vertex. They were generated randomly.
     static const GLfloat g_color_buffer_data[] = {
             0.583f,  0.771f,  0.014f,
             0.609f,  0.115f,  0.436f,
             0.327f,  0.483f,  0.844f/*,
-            0.822f,  0.569f,  0.201f,
+            0.822f,  0.569f,  0.201f,0
             0.435f,  0.602f,  0.223f,
             0.310f,  0.747f,  0.185f,
             0.597f,  0.770f,  0.761f,
