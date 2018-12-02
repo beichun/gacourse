@@ -21,83 +21,106 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-GLFWwindow* window;
-
-//define object shape
-const int a = 2;
-const int b = 2;
-const int c = 2;
-
-//define some parameters of cubes
-const double Length = 0.1;
-
-Eigen::VectorXi initCubeVertex(){
-    Eigen::VectorXi cubeVertex(8);
-    cubeVertex <<
-        0,
-        1,
-        a+1,
-        a+2,
-        (a+1)*(b+1),
-        (a+1)*(b+1)+1,
-        (a+1)*(b+1)+a+1,
-        (a+1)*(b+1)+a+2;
-    return cubeVertex;
-}
-
-Eigen::VectorXi initTriangleVertex(){
-    Eigen::VectorXi triangleVertex(36);
-    triangleVertex <<
-        0,1,2,3,1,2,
-        4,5,6,7,5,6,
-        1,3,7,1,5,7,
-        0,2,6,0,4,6,
-        7,3,2,7,6,2,
-        5,1,0,5,4,0;
-    return triangleVertex;
-}
-
-Eigen::VectorXi cubeVertex = initCubeVertex();
-Eigen::VectorXi triangleVertex = initTriangleVertex();
 
 typedef Eigen::Array<double,Eigen::Dynamic,3,Eigen::RowMajor> ArrayX3dRowMajor;
 typedef Eigen::Array<double,Eigen::Dynamic,2,Eigen::RowMajor> ArrayX2dRowMajor;
+
+GLFWwindow* window;
+
+//define object shape
+const int a = 3;
+const int b = 10;
+const int c = 3;
+const int num_masses = (a+1)*(b+1)*(c+1);
+const int num_cubes = a*b*c;
+const int num_springs = 28*num_cubes;
+
+//define some parameters of cubes
+const double PI = 3.1415926;
+const double Mass = 0.1;  //kg
+const double SpringConstraint = 1000;  //N/m
+const double Length = 0.1;
+const double w = 0.1;
+
+
+const double TimeStep = 0.001;  //s
+const double Gravity[3] = {0,0,-9.81};
+
+double sq(double para)
+{
+    return para*para;
+}
+
+double cb(double para)
+{
+    return para*para*para;
+}
+
+Eigen::ArrayXi initCubeVertex(){
+    Eigen::ArrayXi cubeVertex(8);
+    cubeVertex <<
+               0,
+            1,
+            a+1,
+            a+2,
+            (a+1)*(b+1),
+            (a+1)*(b+1)+1,
+            (a+1)*(b+1)+a+1,
+            (a+1)*(b+1)+a+2;
+    return cubeVertex;
+}
+
+Eigen::ArrayXi initTriangleVertex(){
+    Eigen::ArrayXi triangleVertex(36);
+    triangleVertex <<
+                   0,1,2,3,1,2,
+            4,5,6,7,5,6,
+            1,3,7,1,5,7,
+            0,2,6,0,4,6,
+            7,3,2,7,6,2,
+            5,1,0,5,4,0;
+    return triangleVertex;
+}
+
+
+
+
 
 
 ArrayX2dRowMajor initBaseSpringtoMass() {
     ArrayX2dRowMajor baseSpringtoMass(28,2);
     baseSpringtoMass <<
-        //12 edges
-        0, 1,
-        1, 3,
-        3, 2,
-        2, 0,
-        4, 5,
-        5, 7,
-        7, 6,
-        6, 4,
-        0, 4,
-        1, 5,
-        3, 7,
-        2, 6,
-        //12 short diagonals
-        0, 5,
-        1, 7,
-        3, 6,
-        2, 4,
-        1, 4,
-        3, 5,
-        2, 7,
-        0, 6,
-        0, 3,
-        1, 2,
-        4, 7,
-        5, 6,
-        //4 long diagonals
-        0, 7,
-        1, 6,
-        3, 4,
-        2, 5;
+                     //12 edges
+                     0, 1,
+            1, 3,
+            3, 2,
+            2, 0,
+            4, 5,
+            5, 7,
+            7, 6,
+            6, 4,
+            0, 4,
+            1, 5,
+            3, 7,
+            2, 6,
+            //12 short diagonals
+            0, 5,
+            1, 7,
+            3, 6,
+            2, 4,
+            1, 4,
+            3, 5,
+            2, 7,
+            0, 6,
+            0, 3,
+            1, 2,
+            4, 7,
+            5, 6,
+            //4 long diagonals
+            0, 7,
+            1, 6,
+            3, 4,
+            2, 5;
     return baseSpringtoMass;
 }
 
@@ -133,68 +156,160 @@ ArrayX3dRowMajor initMassPosition(){
     return massPosition;
 }
 
-ArrayX3dRowMajor initMassVelocity(){
-    ArrayX3dRowMajor massVelocity((a+1)*(b+1)*(c+1),3);
-    for(int i=0;i<(a+1)*(b+1)*(c+1);i++){
-        massVelocity.row(i) << 0,0,0;
-    }
-    //std::cout<<"Vel"<<std::endl<<massVelocity<<std::endl;
-    return massVelocity;
-}
-
-ArrayX3dRowMajor initMassAcceleration(){
-    ArrayX3dRowMajor massAcceleration((a+1)*(b+1)*(c+1),3);
-    for(int i=0;i<(a+1)*(b+1)*(c+1);i++){
-        massAcceleration.row(i) << 0,0,0;
-    }
-    //std::cout<<massAcceleration<<std::endl;
-    return massAcceleration;
-}
-
-ArrayX3dRowMajor initMassForces(){
-    ArrayX3dRowMajor massForces((a+1)*(b+1)*(c+1),3);
-    for(int i=0;i<(a+1)*(b+1)*(c+1);i++) {
-        massForces.row(i) << 0, 0, 0;
-    }
-    //std::cout<<massForces<<std::endl;
-    return massForces;
-}
-
-
-ArrayX3dRowMajor baseMassPosition = initBaseMassPosition();
-ArrayX3dRowMajor massPosition = initMassPosition();
-ArrayX3dRowMajor massVelocity = initMassVelocity();
-ArrayX3dRowMajor massAcceleration = initMassAcceleration();
-ArrayX2dRowMajor baseSpringtoMass = initBaseSpringtoMass();
-ArrayX3dRowMajor massForces = initMassForces();
-
-ArrayX2dRowMajor initSpringtoMass(){
-    ArrayX2dRowMajor springtoMass(28*a*b*c,2);
-    for(int i=0;i<28*a*b*c;i++) {
+ArrayX2dRowMajor initSpringtoMass(
+        ArrayX2dRowMajor& baseSpringtoMass,
+        ArrayX3dRowMajor& baseMassPosition){
+    ArrayX2dRowMajor springtoMass(28*num_cubes,2);
+    for(int i=0;i<28*num_cubes;i++) {
         int cube_index = i / 28;
-        //std::cout<<cube_index<<"cube_index"<<i<<std::endl;
+        //std::cout<<cube_index<<std::endl;
         int spring_position = i % 28;
         int deltax = (cube_index % (a * b)) % a;
         int deltay = (cube_index % (a * b) / a);
         int deltaz = (cube_index / (a * b));
-        //std::cout << "deltax=" << deltax << std::endl;
-        //std::cout << "deltay=" << deltay << std::endl;
-        //std::cout << "deltaz=" << deltaz << std::endl;
         for (int j = 0; j < 2; j++) {
             int mass_position = baseSpringtoMass(spring_position,j);
+            //std::cout<<mass_position<<std::endl;
             int x0 = int(baseMassPosition(mass_position,0)/Length);
             int y0 = int(baseMassPosition(mass_position,1)/Length);
             int z0 = int(baseMassPosition(mass_position,2)/Length);
-            springtoMass(i,j) = (z0 + deltaz) * (a + 1) * (b + 1) + (y0 + deltay) * (b + 1) + x0 + deltax;
+            springtoMass(i,j) = (z0 + deltaz) * (a + 1) * (b + 1) + (y0 + deltay) * (a + 1) + x0 + deltax;
+            //std::cout<<"springtoMass(i,j)="<<springtoMass(i,j)<<std::endl;
         }
     }
-    //std::cout << "springtoMass"<<std::endl<<springtoMass<<std::endl;
+    for(int i=0;i<28*a*b*c;i+=28){
+        //std::cout<<springtoMass.row(i)<<std::endl;
+    }
     return springtoMass;
 }
 
-ArrayX2dRowMajor springtoMass = initSpringtoMass();
+Eigen::ArrayXd initSpringCoefa(){
 
-int render(){
+    Eigen::ArrayXd springCoefa(num_cubes);
+    springCoefa = Eigen::ArrayXd::Zero(num_cubes);
+    return springCoefa;
+}
+
+Eigen::ArrayXd initSpringCoefb(){
+    Eigen::ArrayXd springCoefb(num_cubes);
+    springCoefb = Eigen::ArrayXd::Zero(num_cubes);
+    //std::cout<<springCoefb<<std::endl;
+    return springCoefb;
+}
+
+//rest length of springs in cube 0 at time 0
+Eigen::ArrayXd initL0(){
+    Eigen::ArrayXd l0(num_springs);
+    for (int i=0;i<num_springs;i++){
+        if ((i%28)<12)
+            l0[i] = Length;
+        else if ((i%28)<24)
+            l0[i] = Length*sq(2);
+        else
+            l0[i] = Length*sq(3);
+    }
+    //std::cout<<l0<<std::endl;
+    return l0;
+}
+
+
+ArrayX3dRowMajor applyGravity(ArrayX3dRowMajor& massForces){
+    ArrayX3dRowMajor all_gravity(num_masses,3);
+    for (int i=0;i<num_masses;i++){
+        all_gravity.row(i)<<Gravity[0],Gravity[1],Mass*Gravity[2];
+    }
+    massForces += all_gravity;
+    //std::cout<<massForces<<std::endl;
+    return massForces;
+}
+
+/*ArrayX3dRowMajor applySpringForces(
+        Eigen::ArrayXd l0t,
+        ArrayX3dRowMajor& massPosition,
+        ArrayX3dRowMajor& massForces,
+        ArrayX2dRowMajor& springtoMass){
+    ArrayX3dRowMajor spring_forces(num_masses,3);
+    for (int i=0;i<num_masses;i++){
+        spring_forces.row(i)<<0,0,0;
+    }
+    Eigen::Array3d lxyz(28*num_cubes,3);
+    for (int i=0;i<28*num_cubes;i++){
+        lxyz.row(i) << massPosition.row(springtoMass(i,0)) - massPosition.row(springtoMass(i,1));
+    }
+    Eigen::ArrayXd lt(28*num_cubes);
+    for (int i=0;i<28*num_cubes;i++){
+        lt(i)= sqrt(sq(lxyz(0)) + sq(lxyz(1)) + sq(lxyz(2)));
+    }
+    std::cout<<lt<<std::endl;
+    //std::cout<<"spring_forces"<<spring_forces<<std::endl;
+    return massForces;
+}*/
+
+ArrayX3dRowMajor applySpringForces(
+        Eigen::ArrayXd l0t,
+        ArrayX3dRowMajor& massPosition,
+        ArrayX3dRowMajor& massForces,
+        ArrayX2dRowMajor& springtoMass){
+    for (int i=0;i<2;i++){
+        Eigen::Vector3d lxyz;
+        lxyz << (massPosition.row(springtoMass(i,0)) - massPosition.row(springtoMass(i,1)));
+        double force = SpringConstraint*(lxyz.norm()-l0t(i));
+
+    }
+    return massForces;
+}
+
+
+Eigen::ArrayXd Setl0t(
+        double& timeStamp,
+        Eigen::ArrayXd& springCoefa,
+        Eigen::ArrayXd& springCoefb,
+        Eigen::ArrayXd& l0){
+    Eigen::ArrayXd l0t(28*num_cubes);
+    std::cout<<"l0t.size()="<<l0t.size()<<std::endl;
+    std::cout<<"l0.size()="<<l0.size()<<std::endl;
+    std::cout<<"springCoefa.size()="<<springCoefa.size()<<std::endl;
+    std::cout<<"springCoefb.size()="<<springCoefb.size()<<std::endl;
+    std::cout<<"l0.size()="<<l0.size()<<std::endl;
+
+    for (int i=0;i<num_cubes;i++){
+        l0t(i) = l0(i)+springCoefa(i%28)*sin(w*timeStamp+springCoefb(i%28));
+    }
+    return l0t;
+}
+
+ArrayX3dRowMajor applyForces(
+        Eigen::ArrayXd& springCoefa,
+        Eigen::ArrayXd& springCoefb,
+        Eigen::ArrayXd& l0t,
+        ArrayX3dRowMajor& massPosition,
+        ArrayX3dRowMajor& massForces,
+        ArrayX2dRowMajor& springtoMass){
+
+    massForces = applyGravity(massForces);
+    //massForces = applySpringForces(l0t,massPosition,massForces,springtoMass);
+    //massForces = applyGroundForces(massForces);
+    //massForces = applyFriction(massForces);
+    return massForces;
+}
+
+ArrayX3dRowMajor updateVelocity(ArrayX3dRowMajor massVelocity,ArrayX3dRowMajor massAcceleration){
+    massVelocity += massAcceleration*TimeStep;
+    return massVelocity;
+}
+
+ArrayX3dRowMajor massPosition = updatePosition(
+        ArrayX3dRowMajor massPosition,
+        ArrayX3dRowMajor massVelocity){
+    massPosition += massVelocity*TimeStep;
+    return massPosition;
+}
+
+
+int render(ArrayX3dRowMajor& massPosition,
+           Eigen::ArrayXi& triangleVertex,
+           Eigen::ArrayXi& cubeVertex,
+           ArrayX2dRowMajor& springtoMass){
     // Initialise GLFW
     if( !glfwInit() )
     {
@@ -246,6 +361,9 @@ int render(){
     glGenVertexArrays(1, &VertexArrayID);
     glBindVertexArray(VertexArrayID);
 
+
+
+
     // Create and compile our GLSL program from the shaders
     GLuint programID = LoadShaders( "TransformVertexShader.vertexshader", "ColorFragmentShader.fragmentshader" );
 
@@ -257,33 +375,68 @@ int render(){
     // Camera matrix
     glm::mat4 View       = glm::lookAt(
             //glm::vec3(4,3,-3), // Camera is at (4,3,-3), in World Space
-            glm::vec3(1,1,0.5),
+            glm::vec3(2,2,3),
             glm::vec3(0,0,0), // and looks at the origin
-            glm::vec3(0,1,0)  // Head is up (set to 0,-1,0 to look upside-down)
+            glm::vec3(0,0,1)  // Head is up (set to 0,-1,0 to look upside-down)
     );
     // Model matrix : an identity matrix (model will be at the origin)
     glm::mat4 Model      = glm::mat4(1.0f);
     // Our ModelViewProjection : multiplication of our 3 matrices
     glm::mat4 MVP        = Projection * View * Model; // Remember, matrix multiplication is the other way around
 
-
-    int num_cubes = a*b*c;
-    //for (int j=0;j<num_cubes;j++)
-    int k = 10;
+    int k = 1;
     // Our vertices. Tree consecutive floats give a 3D vertex; Three consecutive vertices give a triangle.
     // A cube has 6 faces with 2 triangles each, so this makes 6*2=12 triangles, and 12*3 vertices
-    int num_vertices = 36;
-    GLfloat g_vertex_buffer_data[3*num_vertices];
-    //draw 36 vertices
-    for (int i=0;i<num_vertices;i++){
-        g_vertex_buffer_data[3*i+0] = float(massPosition(cubeVertex(triangleVertex(i))+k,0));
-        g_vertex_buffer_data[3*i+1] = float(massPosition(cubeVertex(triangleVertex(i))+k,1));
-        g_vertex_buffer_data[3*i+2] = float(massPosition(cubeVertex(triangleVertex(i))+k,2));
-        //std::cout<<massPosition(cubeVertex(triangleVertex(i)),0)<<massPosition(cubeVertex(triangleVertex(i)),1)<<massPosition(cubeVertex(triangleVertex(i)),2)<<std::endl;
+    int num_vertices_per_cube = 36;
+    GLfloat g_vertex_buffer_data[3*num_vertices_per_cube*num_cubes];
+
+    Eigen::Array<float,Eigen::Dynamic,3,Eigen::RowMajor> massPositionFloat(massPosition.rows(),massPosition.cols());
+
+    for (int l = 0; l < massPosition.size(); ++l) {
+        massPositionFloat.data()[l] = (float)massPosition.data()[l];
     }
 
-    // One color for each vertex. They were generated randomly.
-    GLfloat g_color_buffer_data[] = {
+    for (int k = 0; k < num_cubes; ++k) {
+        int cube_position = springtoMass(28*k,0);
+        //std::cout<<cube_position<<std::endl;
+        //draw 36 vertices
+        for (int i=0;i<num_vertices_per_cube;i++){
+
+            g_vertex_buffer_data[num_vertices_per_cube*k*3+3*i+0] = massPositionFloat(cubeVertex(triangleVertex(i))+cube_position,0);
+            g_vertex_buffer_data[num_vertices_per_cube*k*3+3*i+1] = massPositionFloat(cubeVertex(triangleVertex(i))+cube_position,1);
+            g_vertex_buffer_data[num_vertices_per_cube*k*3+3*i+2] = massPositionFloat(cubeVertex(triangleVertex(i))+cube_position,2);
+            //std::cout<<massPosition(cubeVertex(triangleVertex(i)),0)<<massPosition(cubeVertex(triangleVertex(i)),1)<<massPosition(cubeVertex(triangleVertex(i)),2)<<std::endl;
+        }
+    }
+
+
+//    int num_triangles_per_cube = 12;
+//    int num_triangles = num_triangles_per_cube*num_cubes;
+//
+//    Eigen::Array<unsigned int,Eigen::Dynamic,3,Eigen::RowMajor> indices(num_triangles,3);
+//
+//
+//    for(int i=0;i<num_cubes;i++){
+//        for (int j = 0; j < num_triangles_per_cube; ++j) {
+//
+//        }
+//    }
+//
+//
+//    //draw 36 vertices
+//    for (int i=0;i<num_triangles;i++){
+//        indices.row(i) << triangleVertex(
+//        cubeVertex.row(triangleVertex(i))+k)
+//
+//        g_vertex_buffer_data[3*i+0] = massPositionFloat(cubeVertex(triangleVertex(i))+k,0);
+//        g_vertex_buffer_data[3*i+1] = massPositionFloat(cubeVertex(triangleVertex(i))+k,1);
+//        g_vertex_buffer_data[3*i+2] = massPositionFloat(cubeVertex(triangleVertex(i))+k,2);
+//        //std::cout<<massPosition(cubeVertex(triangleVertex(i)),0)<<massPosition(cubeVertex(triangleVertex(i)),1)<<massPosition(cubeVertex(triangleVertex(i)),2)<<std::endl;
+//    }
+//
+
+
+    GLfloat g_color_buffer_data_template[] = {
             0.583f,  0.771f,  0.014f,
             0.609f,  0.115f,  0.436f,
             0.327f,  0.483f,  0.844f,
@@ -322,6 +475,15 @@ int render(){
             0.982f,  0.099f,  0.879f
     };
 
+    Eigen::ArrayXf g_color_buffer_data(num_cubes*num_vertices_per_cube*3,1);
+    for (int m = 0; m < g_color_buffer_data.size(); ++m) {
+        g_color_buffer_data.data()[m] = g_color_buffer_data_template[m%(num_vertices_per_cube*3)];
+    }
+
+
+
+
+
     GLuint vertexbuffer;
     glGenBuffers(1, &vertexbuffer);
     glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
@@ -331,7 +493,16 @@ int render(){
     GLuint colorbuffer;
     glGenBuffers(1, &colorbuffer);
     glBindBuffer(GL_ARRAY_BUFFER, colorbuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(g_color_buffer_data), g_color_buffer_data, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, g_color_buffer_data.size()* sizeof(float), &g_color_buffer_data.data()[0], GL_STATIC_DRAW);
+
+
+
+
+//    // Generate a buffer for the indices as well
+//    GLuint elementbuffer;
+//    glGenBuffers(1, &elementbuffer);
+//    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer);
+//    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned short), &indices[0] , GL_STATIC_DRAW);
 
     do{
 
@@ -370,7 +541,18 @@ int render(){
         );
 
         // Draw the triangle !
-        glDrawArrays(GL_TRIANGLES, 0, 12*3); // 12*3 indices starting at 0 -> 12 triangles
+        glDrawArrays(GL_TRIANGLES, 0, 12*3*num_cubes); // 12*3 indices starting at 0 -> 12 triangles
+// Index buffer
+//        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer);
+
+        // Draw the triangles !
+//        glDrawElements(
+//                GL_TRIANGLES,      // mode
+//                indices.size(),    // count
+//                GL_UNSIGNED_INT,   // type
+//                (void*)0           // element array buffer offset
+//        );
+
 
         glDisableVertexAttribArray(0);
         glDisableVertexAttribArray(1);
@@ -395,15 +577,53 @@ int render(){
     return 0;
 }
 
+
+
 int main() {
+
+    double time_stamp = 0.000;
+    Eigen::ArrayXi cubeVertex = initCubeVertex();
+    Eigen::ArrayXi triangleVertex = initTriangleVertex();
+    ArrayX3dRowMajor baseMassPosition = initBaseMassPosition();
+    ArrayX3dRowMajor massPosition = initMassPosition();
+    ArrayX3dRowMajor massVelocity = ArrayX3dRowMajor::Zero(num_masses,3);
+    ArrayX3dRowMajor massAcceleration = ArrayX3dRowMajor::Zero(num_masses,3);
+    ArrayX2dRowMajor baseSpringtoMass = initBaseSpringtoMass();
+    ArrayX3dRowMajor massForces = ArrayX3dRowMajor::Zero((a+1)*(b+1)*(c+1),3);
+    ArrayX2dRowMajor springtoMass = initSpringtoMass(
+            baseSpringtoMass,
+            baseMassPosition);
+    Eigen::ArrayXd springCoefa = initSpringCoefa();
+    Eigen::ArrayXd springCoefb = initSpringCoefb();
+    Eigen::ArrayXd l0 = initL0();
+    Eigen::ArrayXd l0t = Setl0t(
+            time_stamp,
+            springCoefa,
+            springCoefb,
+            l0);
+
+
     /*#pragma omp parallel
     printf("Hello, world.\n");*/
     // initialize the structure
-    
+
     // simulate it get the fitness
+    //massForces = applyForces(springCoefa,springCoefb,l0t,massPosition,massForces,springtoMass);
+    massForces = applyGravity(massForces);
+    //massForces = applySpringForces(l0t,massPosition,massForces,springtoMass);
+    //massForces = applyGroundForces(massForces);
+    //massForces = applyFriction(massForces);
+    massAcceleration = massForces/Mass;//updateAcceleration(massForces);
+
+    massVelocity = updateVelocity(massVelocity,massAcceleration);
+    massPosition = updatePosition(massPosition,massVelocity);
+    time_stamp += TimeStep;
 
     // render this in glfw
-    render();
+    render(massPosition,
+           triangleVertex,
+           cubeVertex,
+           springtoMass);
 
-	return 0;
+    return 0;
 }
