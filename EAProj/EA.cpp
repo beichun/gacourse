@@ -28,9 +28,14 @@ typedef Eigen::Array<double,Eigen::Dynamic,2,Eigen::RowMajor> ArrayX2dRowMajor;
 GLFWwindow* window;
 
 //define object shape
-const int a = 3;
-const int b = 10;
-const int c = 3;
+//const int a = 3;
+//const int b = 10;
+//const int c = 3;
+
+const int a = 1;
+const int b = 1;
+const int c = 1;
+
 const int num_masses = (a+1)*(b+1)*(c+1);
 const int num_cubes = a*b*c;
 const int num_springs = 28*num_cubes;
@@ -204,23 +209,22 @@ Eigen::ArrayXd initL0(){
         if ((i%28)<12)
             l0[i] = Length;
         else if ((i%28)<24)
-            l0[i] = Length*sq(2);
+            l0[i] = Length*sqrt(2);
         else
-            l0[i] = Length*sq(3);
+            l0[i] = Length*sqrt(3);
     }
     //std::cout<<l0<<std::endl;
     return l0;
 }
 
 
-ArrayX3dRowMajor applyGravity(ArrayX3dRowMajor& massForces){
+void applyGravity(ArrayX3dRowMajor& massForces){
     ArrayX3dRowMajor all_gravity(num_masses,3);
     for (int i=0;i<num_masses;i++){
         all_gravity.row(i)<<Gravity[0],Gravity[1],Mass*Gravity[2];
     }
     massForces += all_gravity;
     //std::cout<<massForces<<std::endl;
-    return massForces;
 }
 
 /*ArrayX3dRowMajor applySpringForces(
@@ -245,18 +249,27 @@ ArrayX3dRowMajor applyGravity(ArrayX3dRowMajor& massForces){
     return massForces;
 }*/
 
-ArrayX3dRowMajor applySpringForces(
-        Eigen::ArrayXd l0t,
+void applySpringForces(
+        Eigen::ArrayXd& l0t,
         ArrayX3dRowMajor& massPosition,
         ArrayX3dRowMajor& massForces,
         ArrayX2dRowMajor& springtoMass){
-    for (int i=0;i<2;i++){
-        Eigen::Vector3d lxyz;
-        lxyz << (massPosition.row(springtoMass(i,0)) - massPosition.row(springtoMass(i,1)));
-        double force = SpringConstraint*(lxyz.norm()-l0t(i));
 
+    std::cout<<l0t<<std::endl;
+    for (int i=0;i<num_springs;i++){
+        Eigen::Array<double,1,3,Eigen::RowMajor> lxyz;
+        lxyz << (massPosition.row(springtoMass(i,0)) - massPosition.row(springtoMass(i,1)));
+
+        double lt = std::sqrt(lxyz(0)*lxyz(0)+lxyz(1)*lxyz(1)+lxyz(2)*lxyz(2));
+
+        double force = SpringConstraint*(lt-l0t(i));
+        std::cout<<"lt"<<lt<<std::endl;
+        lxyz = lxyz/lt;
+
+        //Todo see if this is correct
+        massForces.row(springtoMass(i,0)) = massForces.row(springtoMass(i,0)) - force*lxyz;
+        massForces.row(springtoMass(i,1)) = massForces.row(springtoMass(i,1)) + force*lxyz;
     }
-    return massForces;
 }
 
 
@@ -286,27 +299,27 @@ ArrayX3dRowMajor applyForces(
         ArrayX3dRowMajor& massForces,
         ArrayX2dRowMajor& springtoMass){
 
-    massForces = applyGravity(massForces);
+    applyGravity(massForces);
     //massForces = applySpringForces(l0t,massPosition,massForces,springtoMass);
     //massForces = applyGroundForces(massForces);
     //massForces = applyFriction(massForces);
     return massForces;
 }
 
-ArrayX3dRowMajor updateVelocity(ArrayX3dRowMajor massVelocity,ArrayX3dRowMajor massAcceleration){
+ArrayX3dRowMajor updateVelocity(ArrayX3dRowMajor& massVelocity,ArrayX3dRowMajor& massAcceleration){
     massVelocity += massAcceleration*TimeStep;
     return massVelocity;
 }
 
-ArrayX3dRowMajor massPosition = updatePosition(
-        ArrayX3dRowMajor massPosition,
-        ArrayX3dRowMajor massVelocity){
+ArrayX3dRowMajor updatePosition(
+        ArrayX3dRowMajor& massPosition,
+        ArrayX3dRowMajor& massVelocity){
     massPosition += massVelocity*TimeStep;
     return massPosition;
 }
 
 
-int render(ArrayX3dRowMajor& massPosition,
+int render(ArrayX3dRowMajor& position_history,
            Eigen::ArrayXi& triangleVertex,
            Eigen::ArrayXi& cubeVertex,
            ArrayX2dRowMajor& springtoMass){
@@ -390,24 +403,11 @@ int render(ArrayX3dRowMajor& massPosition,
     int num_vertices_per_cube = 36;
     GLfloat g_vertex_buffer_data[3*num_vertices_per_cube*num_cubes];
 
-    Eigen::Array<float,Eigen::Dynamic,3,Eigen::RowMajor> massPositionFloat(massPosition.rows(),massPosition.cols());
+    Eigen::Array<float,Eigen::Dynamic,3,Eigen::RowMajor> massPositionFloat(num_masses,3);
 
-    for (int l = 0; l < massPosition.size(); ++l) {
-        massPositionFloat.data()[l] = (float)massPosition.data()[l];
-    }
 
-    for (int k = 0; k < num_cubes; ++k) {
-        int cube_position = springtoMass(28*k,0);
-        //std::cout<<cube_position<<std::endl;
-        //draw 36 vertices
-        for (int i=0;i<num_vertices_per_cube;i++){
 
-            g_vertex_buffer_data[num_vertices_per_cube*k*3+3*i+0] = massPositionFloat(cubeVertex(triangleVertex(i))+cube_position,0);
-            g_vertex_buffer_data[num_vertices_per_cube*k*3+3*i+1] = massPositionFloat(cubeVertex(triangleVertex(i))+cube_position,1);
-            g_vertex_buffer_data[num_vertices_per_cube*k*3+3*i+2] = massPositionFloat(cubeVertex(triangleVertex(i))+cube_position,2);
-            //std::cout<<massPosition(cubeVertex(triangleVertex(i)),0)<<massPosition(cubeVertex(triangleVertex(i)),1)<<massPosition(cubeVertex(triangleVertex(i)),2)<<std::endl;
-        }
-    }
+
 
 
 //    int num_triangles_per_cube = 12;
@@ -487,7 +487,7 @@ int render(ArrayX3dRowMajor& massPosition,
     GLuint vertexbuffer;
     glGenBuffers(1, &vertexbuffer);
     glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
+//    glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
 
 
     GLuint colorbuffer;
@@ -504,48 +504,97 @@ int render(ArrayX3dRowMajor& massPosition,
 //    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer);
 //    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned short), &indices[0] , GL_STATIC_DRAW);
 
+// fps counter : http://www.opengl-tutorial.org/miscellaneous/an-fps-counter/
+
+
+    int num_frames = position_history.rows()/num_masses;
+
+    double lastTime = glfwGetTime();
+    int nbFrames = 0;
+    int k_frames = 0;
+    double dt_render = 1.0/60.0;
+
     do{
+        // Measure speed
+        double currentTime = glfwGetTime();
+        if(currentTime - lastTime >= dt_render){
+            if ( currentTime - lastTime >= 1.0 ){ // If last prinf() was more than 1 sec ago
+                // printf and reset timer
+                printf("%f ms/frame\n", 1000.0/double(nbFrames));
+                nbFrames = 0;
+                lastTime += 1.0;
+            }
 
-        // Clear the screen
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        // Use our shader
-        glUseProgram(programID);
 
-        // Send our transformation to the currently bound shader,
-        // in the "MVP" uniform
-        glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
+            for (int i = 0; i < num_masses; ++i) {
+                for (int j = 0; j < 3; ++j) {
+                    massPositionFloat(i,j) = (float)position_history(k_frames*num_masses+i,j);
+                }
+            }
 
-        // 1rst attribute buffer : vertices
-        glEnableVertexAttribArray(0);
-        glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-        glVertexAttribPointer(
-                0,                  // attribute. No particular reason for 0, but must match the layout in the shader.
-                3,                  // size
-                GL_FLOAT,           // type
-                GL_FALSE,           // normalized?
-                0,                  // stride
-                (void*)0            // array buffer offset
-        );
 
-        // 2nd attribute buffer : colors
-        glEnableVertexAttribArray(1);
-        glBindBuffer(GL_ARRAY_BUFFER, colorbuffer);
-        glVertexAttribPointer(
-                1,                                // attribute. No particular reason for 1, but must match the layout in the shader.
-                3,                                // size
-                GL_FLOAT,                         // type
-                GL_FALSE,                         // normalized?
-                0,                                // stride
-                (void*)0                          // array buffer offset
-        );
+            for (int k = 0; k < num_cubes; ++k) {
+                int cube_position = springtoMass(28*k,0);
+                //std::cout<<cube_position<<std::endl;
+                //draw 36 vertices
+                for (int i=0;i<num_vertices_per_cube;i++){
 
-        // Draw the triangle !
-        glDrawArrays(GL_TRIANGLES, 0, 12*3*num_cubes); // 12*3 indices starting at 0 -> 12 triangles
+                    g_vertex_buffer_data[num_vertices_per_cube*k*3+3*i+0] = massPositionFloat(cubeVertex(triangleVertex(i))+cube_position,0);
+                    g_vertex_buffer_data[num_vertices_per_cube*k*3+3*i+1] = massPositionFloat(cubeVertex(triangleVertex(i))+cube_position,1);
+                    g_vertex_buffer_data[num_vertices_per_cube*k*3+3*i+2] = massPositionFloat(cubeVertex(triangleVertex(i))+cube_position,2);
+                    //std::cout<<massPosition(cubeVertex(triangleVertex(i)),0)<<massPosition(cubeVertex(triangleVertex(i)),1)<<massPosition(cubeVertex(triangleVertex(i)),2)<<std::endl;
+                }
+            }
+
+
+
+            glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+            glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
+
+
+
+
+            // Clear the screen
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+            // Use our shader
+            glUseProgram(programID);
+
+            // Send our transformation to the currently bound shader,
+            // in the "MVP" uniform
+            glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
+
+            // 1rst attribute buffer : vertices
+            glEnableVertexAttribArray(0);
+            glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+            glVertexAttribPointer(
+                    0,                  // attribute. No particular reason for 0, but must match the layout in the shader.
+                    3,                  // size
+                    GL_FLOAT,           // type
+                    GL_FALSE,           // normalized?
+                    0,                  // stride
+                    (void*)0            // array buffer offset
+            );
+
+            // 2nd attribute buffer : colors
+            glEnableVertexAttribArray(1);
+            glBindBuffer(GL_ARRAY_BUFFER, colorbuffer);
+            glVertexAttribPointer(
+                    1,                                // attribute. No particular reason for 1, but must match the layout in the shader.
+                    3,                                // size
+                    GL_FLOAT,                         // type
+                    GL_FALSE,                         // normalized?
+                    0,                                // stride
+                    (void*)0                          // array buffer offset
+            );
+
+            // Draw the triangle !
+            glDrawArrays(GL_TRIANGLES, 0, 12*3*num_cubes); // 12*3 indices starting at 0 -> 12 triangles
 // Index buffer
 //        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer);
 
-        // Draw the triangles !
+            // Draw the triangles !
 //        glDrawElements(
 //                GL_TRIANGLES,      // mode
 //                indices.size(),    // count
@@ -554,12 +603,23 @@ int render(ArrayX3dRowMajor& massPosition,
 //        );
 
 
-        glDisableVertexAttribArray(0);
-        glDisableVertexAttribArray(1);
+            glDisableVertexAttribArray(0);
+            glDisableVertexAttribArray(1);
 
-        // Swap buffers
-        glfwSwapBuffers(window);
-        glfwPollEvents();
+            // Swap buffers
+            glfwSwapBuffers(window);
+            glfwPollEvents();
+
+            nbFrames++;
+            k_frames++;
+            if(k_frames>=num_frames){
+                k_frames = 0;
+            }
+        }
+
+
+
+
 
     } // Check if the ESC key was pressed or the window was closed
     while( glfwGetKey(window, GLFW_KEY_ESCAPE ) != GLFW_PRESS &&
@@ -596,6 +656,8 @@ int main() {
     Eigen::ArrayXd springCoefa = initSpringCoefa();
     Eigen::ArrayXd springCoefb = initSpringCoefb();
     Eigen::ArrayXd l0 = initL0();
+
+    std::cout<<"l0 = \n"<<l0<<std::endl;
     Eigen::ArrayXd l0t = Setl0t(
             time_stamp,
             springCoefa,
@@ -608,22 +670,34 @@ int main() {
     // initialize the structure
 
     // simulate it get the fitness
-    //massForces = applyForces(springCoefa,springCoefb,l0t,massPosition,massForces,springtoMass);
-    massForces = applyGravity(massForces);
-    //massForces = applySpringForces(l0t,massPosition,massForces,springtoMass);
-    //massForces = applyGroundForces(massForces);
-    //massForces = applyFriction(massForces);
-    massAcceleration = massForces/Mass;//updateAcceleration(massForces);
 
-    massVelocity = updateVelocity(massVelocity,massAcceleration);
-    massPosition = updatePosition(massPosition,massVelocity);
-    time_stamp += TimeStep;
+    int num_frames = 50;
+    int skip_frames = 10;
+
+    ArrayX3dRowMajor position_history = ArrayX3dRowMajor::Zero(num_frames*num_masses,3);
+
+    for (int i = 0; i <num_frames; ++i) {
+        for (int j = 0; j <skip_frames; ++j) {
+            applyGravity(massForces);
+            applySpringForces(l0t,massPosition,massForces,springtoMass);
+            //massForces = applyGroundForces(massForces);
+            //massForces = applyFriction(massForces);
+            massAcceleration = massForces/Mass;//updateAcceleration(massForces);
+
+            massVelocity = updateVelocity(massVelocity,massAcceleration);
+            massPosition = updatePosition(massPosition,massVelocity);
+            time_stamp += TimeStep;
+        }
+        position_history.block(i*num_masses,0,num_masses,3) = massPosition;
+    }
+
 
     // render this in glfw
-    render(massPosition,
+    render(position_history,
            triangleVertex,
            cubeVertex,
            springtoMass);
+
 
     return 0;
 }
