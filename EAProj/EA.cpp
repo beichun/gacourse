@@ -32,7 +32,7 @@ GLFWwindow* window;
 //const int b = 10;
 //const int c = 3;
 
-const int a = 1;
+const int a = 5;
 const int b = 1;
 const int c = 1;
 
@@ -45,11 +45,18 @@ const double PI = 3.1415926;
 const double Mass = 0.1;  //kg
 const double SpringConstraint = 1000;  //N/m
 const double Length = 0.1;
-const double w = 0.1;
+const double w = 1;
 
+//friction coefficients for glass on glass
+const double Muk = 0.4;
+const double Mus = 0.94;
 
+const double InitialHeight = 0.0;
+const double InitialVelocityY = 1;
 const double TimeStep = 0.001;  //s
 const double Gravity[3] = {0,0,-9.81};
+const double kc = 10000;
+const double DampingCoef = 0.999;
 
 double sq(double para)
 {
@@ -60,6 +67,7 @@ double cb(double para)
 {
     return para*para*para;
 }
+
 
 Eigen::ArrayXi initCubeVertex(){
     Eigen::ArrayXi cubeVertex(8);
@@ -75,6 +83,7 @@ Eigen::ArrayXi initCubeVertex(){
     return cubeVertex;
 }
 
+
 Eigen::ArrayXi initTriangleVertex(){
     Eigen::ArrayXi triangleVertex(36);
     triangleVertex <<
@@ -86,10 +95,6 @@ Eigen::ArrayXi initTriangleVertex(){
             5,1,0,5,4,0;
     return triangleVertex;
 }
-
-
-
-
 
 
 ArrayX2dRowMajor initBaseSpringtoMass() {
@@ -129,6 +134,7 @@ ArrayX2dRowMajor initBaseSpringtoMass() {
     return baseSpringtoMass;
 }
 
+
 ArrayX3dRowMajor initBaseMassPosition(){
     ArrayX3dRowMajor baseMassPosition(8,3);
     int mass_index = 0;
@@ -145,13 +151,14 @@ ArrayX3dRowMajor initBaseMassPosition(){
     return baseMassPosition;
 }
 
+
 ArrayX3dRowMajor initMassPosition(){
-    ArrayX3dRowMajor massPosition((a+1)*(b+1)*(c+1),3);
+    ArrayX3dRowMajor massPosition(num_masses,3);
     int mass_index = 0;
     for(int i=0;i<c+1;i++){
         for(int j=0;j<b+1;j++){
             for(int k=0;k<a+1;k++){
-                massPosition.row(mass_index) << k,j,i;
+                massPosition.row(mass_index) << k,j,i+InitialHeight;
                 mass_index++;
             }
         }
@@ -160,6 +167,16 @@ ArrayX3dRowMajor initMassPosition(){
     //std::cout<<massPosition<<std::endl;
     return massPosition;
 }
+
+
+ArrayX3dRowMajor initMassVelocity(){
+    ArrayX3dRowMajor massVelocity = ArrayX3dRowMajor::Zero(num_masses,3);
+    for (int i=0;i<num_masses;i++){
+        massVelocity(i,1) = InitialVelocityY;
+    }
+    return massVelocity;
+}
+
 
 ArrayX2dRowMajor initSpringtoMass(
         ArrayX2dRowMajor& baseSpringtoMass,
@@ -188,19 +205,22 @@ ArrayX2dRowMajor initSpringtoMass(
     return springtoMass;
 }
 
+
 Eigen::ArrayXd initSpringCoefa(){
 
     Eigen::ArrayXd springCoefa(num_cubes);
-    springCoefa = Eigen::ArrayXd::Zero(num_cubes);
+    springCoefa = 0.01*Eigen::ArrayXd::Zero(num_cubes);
     return springCoefa;
 }
 
+
 Eigen::ArrayXd initSpringCoefb(){
     Eigen::ArrayXd springCoefb(num_cubes);
-    springCoefb = Eigen::ArrayXd::Zero(num_cubes);
-    //std::cout<<springCoefb<<std::endl;
+    springCoefb = PI*Eigen::ArrayXd::Random(num_cubes);
+    std::cout<<springCoefb<<std::endl;
     return springCoefb;
 }
+
 
 //rest length of springs in cube 0 at time 0
 Eigen::ArrayXd initL0(){
@@ -227,27 +247,6 @@ void applyGravity(ArrayX3dRowMajor& massForces){
     //std::cout<<massForces<<std::endl;
 }
 
-/*ArrayX3dRowMajor applySpringForces(
-        Eigen::ArrayXd l0t,
-        ArrayX3dRowMajor& massPosition,
-        ArrayX3dRowMajor& massForces,
-        ArrayX2dRowMajor& springtoMass){
-    ArrayX3dRowMajor spring_forces(num_masses,3);
-    for (int i=0;i<num_masses;i++){
-        spring_forces.row(i)<<0,0,0;
-    }
-    Eigen::Array3d lxyz(28*num_cubes,3);
-    for (int i=0;i<28*num_cubes;i++){
-        lxyz.row(i) << massPosition.row(springtoMass(i,0)) - massPosition.row(springtoMass(i,1));
-    }
-    Eigen::ArrayXd lt(28*num_cubes);
-    for (int i=0;i<28*num_cubes;i++){
-        lt(i)= sqrt(sq(lxyz(0)) + sq(lxyz(1)) + sq(lxyz(2)));
-    }
-    std::cout<<lt<<std::endl;
-    //std::cout<<"spring_forces"<<spring_forces<<std::endl;
-    return massForces;
-}*/
 
 void applySpringForces(
         Eigen::ArrayXd& l0t,
@@ -255,7 +254,7 @@ void applySpringForces(
         ArrayX3dRowMajor& massForces,
         ArrayX2dRowMajor& springtoMass){
 
-    std::cout<<l0t<<std::endl;
+    //std::cout<<"l0t"<<l0t<<std::endl;
     for (int i=0;i<num_springs;i++){
         Eigen::Array<double,1,3,Eigen::RowMajor> lxyz;
         lxyz << (massPosition.row(springtoMass(i,0)) - massPosition.row(springtoMass(i,1)));
@@ -263,12 +262,49 @@ void applySpringForces(
         double lt = std::sqrt(lxyz(0)*lxyz(0)+lxyz(1)*lxyz(1)+lxyz(2)*lxyz(2));
 
         double force = SpringConstraint*(lt-l0t(i));
-        std::cout<<"lt"<<lt<<std::endl;
+        //std::cout<<"lt spring"<<i<<" = "<<lt<<std::endl;
+        //std::cout<<"force"<<force<<std::endl;
         lxyz = lxyz/lt;
 
-        //Todo see if this is correct
         massForces.row(springtoMass(i,0)) = massForces.row(springtoMass(i,0)) - force*lxyz;
         massForces.row(springtoMass(i,1)) = massForces.row(springtoMass(i,1)) + force*lxyz;
+    }
+}
+
+
+void applyGroundForces(
+        ArrayX3dRowMajor& massPosition,
+        ArrayX3dRowMajor& massForces){
+    double height;
+    double ground_force;
+    for (int i=0;i<num_masses;i++){
+        height = massPosition(i,2);
+        if (height<0) {
+            ground_force = kc * sq(height);
+            massForces(i,2) += ground_force;
+        }
+    }
+}
+
+
+void applyFriction(
+        ArrayX3dRowMajor& massPosition,
+        ArrayX3dRowMajor& massForces,
+        ArrayX3dRowMajor& massVelocity
+        ){
+    for(int i=0;i<num_masses;i++){
+        if ((massPosition(i,2)<0)&&(massVelocity(i,0)!=0)&&(massVelocity(i,1)!=0)){
+            double force_h = std::sqrt(sq(massForces(i,0))+sq(massForces(i,1)));
+            double force_v = massForces(i,2);
+            if (force_h>=-Mus*force_v){
+                massForces(i,0) *= (force_h-Muk*force_v)/(force_h);
+                massForces(i,1) *= (force_h-Muk*force_v)/(force_h);
+            }
+            else {
+                massForces(i,0) = 0;
+                massForces(i,1) = 0;
+            }
+        }
     }
 }
 
@@ -278,45 +314,21 @@ Eigen::ArrayXd Setl0t(
         Eigen::ArrayXd& springCoefa,
         Eigen::ArrayXd& springCoefb,
         Eigen::ArrayXd& l0){
-    Eigen::ArrayXd l0t(28*num_cubes);
-    std::cout<<"l0t.size()="<<l0t.size()<<std::endl;
-    std::cout<<"l0.size()="<<l0.size()<<std::endl;
-    std::cout<<"springCoefa.size()="<<springCoefa.size()<<std::endl;
-    std::cout<<"springCoefb.size()="<<springCoefb.size()<<std::endl;
-    std::cout<<"l0.size()="<<l0.size()<<std::endl;
-
-    for (int i=0;i<num_cubes;i++){
-        l0t(i) = l0(i)+springCoefa(i%28)*sin(w*timeStamp+springCoefb(i%28));
+    Eigen::ArrayXd l0t(num_springs);
+    //std::cout<<"l0t.size()="<<l0t.size()<<std::endl;
+    //std::cout<<"l0.size()="<<l0.size()<<std::endl;
+    //std::cout<<"springCoefa.size()="<<springCoefa.size()<<std::endl;
+    //std::cout<<"springCoefb.size()="<<springCoefb.size()<<std::endl;
+    //std::cout<<"l0.size()="<<l0.size()<<std::endl;
+    //std::cout<<"l0\n"<<l0<<std::endl;
+    for (int i=0;i<num_springs;i++){
+        l0t(i) = l0(i)+springCoefa(i/28)*sin(w*timeStamp+springCoefb(i/28));
+        //std::cout<<"l0t"<<i<<"="<<l0t(i)<<std::endl;
     }
     return l0t;
 }
 
-ArrayX3dRowMajor applyForces(
-        Eigen::ArrayXd& springCoefa,
-        Eigen::ArrayXd& springCoefb,
-        Eigen::ArrayXd& l0t,
-        ArrayX3dRowMajor& massPosition,
-        ArrayX3dRowMajor& massForces,
-        ArrayX2dRowMajor& springtoMass){
 
-    applyGravity(massForces);
-    //massForces = applySpringForces(l0t,massPosition,massForces,springtoMass);
-    //massForces = applyGroundForces(massForces);
-    //massForces = applyFriction(massForces);
-    return massForces;
-}
-
-ArrayX3dRowMajor updateVelocity(ArrayX3dRowMajor& massVelocity,ArrayX3dRowMajor& massAcceleration){
-    massVelocity += massAcceleration*TimeStep;
-    return massVelocity;
-}
-
-ArrayX3dRowMajor updatePosition(
-        ArrayX3dRowMajor& massPosition,
-        ArrayX3dRowMajor& massVelocity){
-    massPosition += massVelocity*TimeStep;
-    return massPosition;
-}
 
 
 int render(ArrayX3dRowMajor& position_history,
@@ -388,7 +400,7 @@ int render(ArrayX3dRowMajor& position_history,
     // Camera matrix
     glm::mat4 View       = glm::lookAt(
             //glm::vec3(4,3,-3), // Camera is at (4,3,-3), in World Space
-            glm::vec3(2,2,3),
+            glm::vec3(4,4,3),
             glm::vec3(0,0,0), // and looks at the origin
             glm::vec3(0,0,1)  // Head is up (set to 0,-1,0 to look upside-down)
     );
@@ -646,7 +658,7 @@ int main() {
     Eigen::ArrayXi triangleVertex = initTriangleVertex();
     ArrayX3dRowMajor baseMassPosition = initBaseMassPosition();
     ArrayX3dRowMajor massPosition = initMassPosition();
-    ArrayX3dRowMajor massVelocity = ArrayX3dRowMajor::Zero(num_masses,3);
+    ArrayX3dRowMajor massVelocity = initMassVelocity();
     ArrayX3dRowMajor massAcceleration = ArrayX3dRowMajor::Zero(num_masses,3);
     ArrayX2dRowMajor baseSpringtoMass = initBaseSpringtoMass();
     ArrayX3dRowMajor massForces = ArrayX3dRowMajor::Zero((a+1)*(b+1)*(c+1),3);
@@ -657,12 +669,13 @@ int main() {
     Eigen::ArrayXd springCoefb = initSpringCoefb();
     Eigen::ArrayXd l0 = initL0();
 
-    std::cout<<"l0 = \n"<<l0<<std::endl;
+    //std::cout<<"l0 = \n"<<l0<<std::endl;
     Eigen::ArrayXd l0t = Setl0t(
             time_stamp,
             springCoefa,
             springCoefb,
             l0);
+    //std::cout<<l0t<<std::endl;
 
 
     /*#pragma omp parallel
@@ -671,21 +684,25 @@ int main() {
 
     // simulate it get the fitness
 
-    int num_frames = 50;
+    int num_frames = 500;
     int skip_frames = 10;
 
     ArrayX3dRowMajor position_history = ArrayX3dRowMajor::Zero(num_frames*num_masses,3);
 
     for (int i = 0; i <num_frames; ++i) {
         for (int j = 0; j <skip_frames; ++j) {
+            ArrayX3dRowMajor massForces = ArrayX3dRowMajor::Zero((a+1)*(b+1)*(c+1),3);
             applyGravity(massForces);
             applySpringForces(l0t,massPosition,massForces,springtoMass);
-            //massForces = applyGroundForces(massForces);
-            //massForces = applyFriction(massForces);
-            massAcceleration = massForces/Mass;//updateAcceleration(massForces);
+            applyGroundForces(massPosition,massForces);
+            applyFriction(massPosition,massForces,massVelocity);
 
-            massVelocity = updateVelocity(massVelocity,massAcceleration);
-            massPosition = updatePosition(massPosition,massVelocity);
+            massAcceleration = massForces/Mass;
+
+            massVelocity += massAcceleration*TimeStep;
+            std::cout<<massVelocity(0,1)<<std::endl;
+            //massVelocity *= DampingCoef;
+            massPosition += massVelocity*TimeStep;
             time_stamp += TimeStep;
         }
         position_history.block(i*num_masses,0,num_masses,3) = massPosition;
