@@ -32,7 +32,7 @@ GLFWwindow* window;
 //const int b = 10;
 //const int c = 3;
 
-const int a = 1;
+const int a = 5;
 const int b = 1;
 const int c = 1;
 
@@ -45,13 +45,13 @@ const double PI = 3.1415926;
 const double Mass = 0.1;  //kg
 const double SpringConstraint = 1000;  //N/m
 const double Length = 0.1;
-const double w = 1;
+const double w = PI;
 
 //friction coefficients for glass on glass
 const double Muk = 0.8;
 const double Mus = 1;
 
-const double InitialHeight = 0.1;
+const double InitialHeight = 0.0;
 const double InitialVelocityY = 0.0;
 const double TimeStep = 0.0005;  //s
 const double Gravity[3] = {0,0,-9.81};
@@ -177,7 +177,7 @@ ArrayX3dRowMajor initMassPosition(){
 ArrayX3dRowMajor initMassVelocity(){
     ArrayX3dRowMajor massVelocity = ArrayX3dRowMajor::Zero(num_masses,3);
     for (int i=0;i<num_masses;i++){
-        massVelocity(i,1) = InitialVelocityY;
+        massVelocity(i,1) += InitialVelocityY;
     }
     return massVelocity;
 }
@@ -214,7 +214,7 @@ ArrayX2dRowMajor initSpringtoMass(
 Eigen::ArrayXd initSpringCoefa(){
 
     Eigen::ArrayXd springCoefa(num_cubes);
-    springCoefa = 0.01*Eigen::ArrayXd::Zero(num_cubes);
+    springCoefa = 0.02*Eigen::ArrayXd::Ones(num_cubes);
     return springCoefa;
 }
 
@@ -222,7 +222,7 @@ Eigen::ArrayXd initSpringCoefa(){
 Eigen::ArrayXd initSpringCoefb(){
     Eigen::ArrayXd springCoefb(num_cubes);
     springCoefb = PI*Eigen::ArrayXd::Random(num_cubes);
-    //std::cout<<springCoefb<<std::endl;
+    std::cout<<springCoefb<<std::endl;
     return springCoefb;
 }
 
@@ -324,17 +324,6 @@ inline void applyFrictionandGroundForces(
                 }
 
             }
-
-            /*double force_h = std::sqrt(sq(massForces(i,0))+sq(massForces(i,1)));
-            double force_v = massForces(i,2);
-            if (force_h>=-Mus*force_v){
-                massForces(i,0) *= (force_h-Muk*force_v)/(force_h);
-                massForces(i,1) *= (force_h-Muk*force_v)/(force_h);
-            }
-            else {
-                massForces(i,0) = 0;
-                massForces(i,1) = 0;
-            }*/
 
         }
     }
@@ -469,7 +458,7 @@ int render(ArrayX3dRowMajor& position_history,
     // Camera matrix
     glm::mat4 View       = glm::lookAt(
             //glm::vec3(4,3,-3), // Camera is at (4,3,-3), in World Space
-            glm::vec3(2,0,2),
+            glm::vec3(0.5,1,1),
             glm::vec3(0,0,0), // and looks at the origin
             glm::vec3(0,0,1)  // Head is up (set to 0,-1,0 to look upside-down)
     );
@@ -718,11 +707,10 @@ int render(ArrayX3dRowMajor& position_history,
     return 0;
 }
 
-
+double simulate()
 
 int main() {
 
-    double time_stamp = 0.000;
     Eigen::ArrayXi cubeVertex = initCubeVertex();
     Eigen::ArrayXi triangleVertex = initTriangleVertex();
     ArrayX3dRowMajor baseMassPosition = initBaseMassPosition();
@@ -736,6 +724,7 @@ int main() {
     Eigen::ArrayXd springCoefa = initSpringCoefa();
     Eigen::ArrayXd springCoefb = initSpringCoefb();
     Eigen::ArrayXd l0 = initL0();
+    double time_stamp = 0.000;
     Eigen::ArrayXd l0t = Setl0t(
             time_stamp,
             springCoefa,
@@ -782,10 +771,7 @@ int main() {
             massVelocity += massAcceleration*TimeStep;
             massVelocity *= DampingCoef;
             massPosition += massVelocity*TimeStep;
-            calculateEnergy(massVelocity,massPosition,springtoMass,l0t);
-//            calculateEnergy(massVelocity,massPosition,springtoMass,l0);
-
-
+            //calculateEnergy(massVelocity,massPosition,springtoMass,l0t);
 
             time_stamp += TimeStep;
         }
