@@ -1577,3 +1577,18 @@ make[1]: Leaving directory '/home/bq2139/Documents/ogl/cmake-build-debug/CMakeFi
 
 Source file was:
 int main() { return 0; }
+Performing C++ SOURCE FILE Test COMPILER_SUPPORT_std=cpp03 succeeded with the following output:
+Change Dir: /home/bq2139/Documents/ogl/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_4c674/fast"
+/usr/bin/make -f CMakeFiles/cmTC_4c674.dir/build.make CMakeFiles/cmTC_4c674.dir/build
+make[1]: Entering directory '/home/bq2139/Documents/ogl/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_4c674.dir/src.cxx.o
+/usr/bin/c++    -O3 -fopenmp -DCOMPILER_SUPPORT_std=cpp03   -std=c++03 -o CMakeFiles/cmTC_4c674.dir/src.cxx.o -c /home/bq2139/Documents/ogl/cmake-build-debug/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_4c674
+/home/bq2139/Documents/clion-2018.2.6/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4c674.dir/link.txt --verbose=1
+/usr/bin/c++  -O3 -fopenmp -DCOMPILER_SUPPORT_std=cpp03    -rdynamic CMakeFiles/cmTC_4c674.dir/src.cxx.o  -o cmTC_4c674 
+make[1]: Leaving directory '/home/bq2139/Documents/ogl/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main() { return 0; }

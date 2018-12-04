@@ -9,7 +9,7 @@ C_DEFINES = -DASSIMP_BUILD_BOOST_WORKAROUND -DASSIMP_BUILD_DLL_EXPORT -DGLEW_STA
 
 C_INCLUDES = -I/home/bq2139/Documents/ogl/external/eigen/Eigen -I/home/bq2139/Documents/ogl/external/glfw-3.1.2/include/GLFW -I/home/bq2139/Documents/ogl/external/glew-1.13.0/include -I/home/bq2139/Documents/ogl/external/AntTweakBar-1.16/include -I/home/bq2139/Documents/ogl/external/assimp-3.0.1270/code/BoostWorkaround -I/home/bq2139/Documents/ogl/external/assimp-3.0.1270/code/../contrib/unzip 
 
-CXX_FLAGS = -O0 -fopenmp -g  
+CXX_FLAGS = -O3 -fopenmp -g  
 
 CXX_DEFINES = -DASSIMP_BUILD_BOOST_WORKAROUND -DASSIMP_BUILD_DLL_EXPORT -DGLEW_STATIC -DTW_NO_DIRECT3D -DTW_NO_LIB_PRAGMA -DTW_STATIC -D_CRT_SECURE_NO_WARNINGS -D_UNIX
 
