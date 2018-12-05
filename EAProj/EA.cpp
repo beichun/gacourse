@@ -783,6 +783,7 @@ int main() {
     Eigen::ArrayXd springCoefa_new = springCoefa_best;
     Eigen::ArrayXd springCoefb_new = springCoefb_best;
 
+//    #pragma omp parallel for
     for (int i=0;i<num_evaluations;i++){
         // initialize the structure
         springCoefa_new = springCoefa_best;
