@@ -768,7 +768,7 @@ int main() {
 
     int num_frames = 5000;
     int skip_frames = 32;
-    int num_evaluations = 100;
+    int num_evaluations = 1000;
     /*#pragma omp parallel
     printf("Hello, world.\n");*/
 
