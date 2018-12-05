@@ -1426,7 +1426,7 @@
   <component name="ChangeListManager">
     <list default="true" id="443a82b3-43bd-4f68-94db-fb98a9235e01" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/EAProj/EA.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/EAProj/EA.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/eaproj.dir/EAProj/EA.cpp.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/eaproj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/eaproj" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -1472,14 +1472,14 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="cpp" value="12041" />
+          <entry key="cpp" value="12059" />
           <entry key="txt" value="232" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="CMakeLists.txt" value="199" />
-          <entry key="ObjectiveC" value="12041" />
+          <entry key="ObjectiveC" value="12059" />
           <entry key="PLAIN_TEXT" value="33" />
         </counts>
       </usages-collector>
@@ -1502,8 +1502,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/EAProj/EA.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="110">
-              <caret line="768" column="27" selection-start-line="768" selection-start-column="27" selection-end-line="768" selection-end-column="27" />
+            <state relative-caret-position="-3294">
+              <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
               <folding>
                 <element signature="e#28#46#0" expanded="true" />
                 <element signature="e#92#111#0" expanded="true" />
@@ -10228,7 +10228,7 @@
       <workItem from="1543386321748" duration="3079000" />
       <workItem from="1543443706679" duration="47100000" />
       <workItem from="1543558830284" duration="35937000" />
-      <workItem from="1543649389681" duration="83504000" />
+      <workItem from="1543649389681" duration="84256000" />
     </task>
     <task id="LOCAL-00001" summary="add my files">
       <created>1542767417738</created>
@@ -10255,7 +10255,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="210782000" />
+    <option name="totallyTimeSpent" value="211534000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -10456,8 +10456,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/EAProj/EA.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="110">
-          <caret line="768" column="27" selection-start-line="768" selection-start-column="27" selection-end-line="768" selection-end-column="27" />
+        <state relative-caret-position="-3294">
+          <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
           <folding>
             <element signature="e#28#46#0" expanded="true" />
             <element signature="e#92#111#0" expanded="true" />

@@ -41,7 +41,7 @@ const double PI = 3.1415926;
 const double Mass = 0.1;  //kg
 const double SpringConstraint = 1000;  //N/m
 const double Length = 0.1;
-const double w = 2*PI;
+const double w = 5*PI;
 
 //friction coefficients for glass on glass
 const double Muk = 0.8;
@@ -454,7 +454,7 @@ int render(ArrayX3dRowMajor& position_history,
     // Camera matrix
     glm::mat4 View       = glm::lookAt(
             //glm::vec3(4,3,-3), // Camera is at (4,3,-3), in World Space
-            glm::vec3(0.5,1,1),
+            glm::vec3(1,1.5,1.5),
             glm::vec3(0,0,0), // and looks at the origin
             glm::vec3(0,0,1)  // Head is up (set to 0,-1,0 to look upside-down)
     );
@@ -766,12 +766,12 @@ int main() {
 
     int num_frames = 5000;
     int skip_frames = 16;
-    int num_evaluations = 50;
+    int num_evaluations = 100;
     /*#pragma omp parallel
     printf("Hello, world.\n");*/
 
-    double fitness;
-    double best_fitness;
+    double new_fitness;
+    double best_fitness = 0;
     ArrayX3dRowMajor position_history = ArrayX3dRowMajor::Zero(num_frames*num_masses,3);
     ArrayX3dRowMajor best_position_history = ArrayX3dRowMajor::Zero(num_frames*num_masses,3);
 
@@ -787,7 +787,7 @@ int main() {
         for (int i=0;i<num_masses;i++){
             massPosition(i,2) += InitialHeight;
         }
-        fitness = simulate(
+        new_fitness = simulate(
                 num_frames,
                 skip_frames,
                 springCoefa,
@@ -798,8 +798,8 @@ int main() {
                 massVelocity,
                 massAcceleration,
                 position_history);
-        if (fitness>=best_fitness) {
-            best_fitness = fitness;
+        if (new_fitness>=best_fitness) {
+            best_fitness = new_fitness;
             best_position_history = position_history;
         }
         std::cout<<"best_fitness "<<i<<" = "<<best_fitness<<std::endl;
