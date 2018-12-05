@@ -768,7 +768,7 @@ int main() {
 
     int num_frames = 5000;
     int skip_frames = 32;
-    int num_evaluations = 500;
+    int num_evaluations = 100;
     /*#pragma omp parallel
     printf("Hello, world.\n");*/
 
@@ -805,7 +805,7 @@ int main() {
                 massVelocity,
                 massAcceleration,
                 position_history);
-        std::cout<<new_fitness<<std::endl;
+        //std::cout<<new_fitness<<std::endl;
         if (new_fitness>=best_fitness) {
             best_fitness = new_fitness;
             best_position_history = position_history;
@@ -815,7 +815,8 @@ int main() {
         std::cout<<"best_fitness "<<i<<" = "<<best_fitness<<std::endl;
     }
     //std::cout<<"best_fitness "<<best_fitness<<std::endl;
-
+    std::cout<<"springCoefa_best = \n"<<springCoefa_best<<std::endl;
+    std::cout<<"springCoefa_best = \n"<<springCoefb_best<<std::endl;
 
     // render this in glfw
     render(best_position_history,

@@ -1425,10 +1425,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="443a82b3-43bd-4f68-94db-fb98a9235e01" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EAProj/EA.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/EAProj/EA.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/eaproj.dir/EAProj/EA.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/eaproj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/eaproj" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -1474,14 +1471,14 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="cpp" value="12474" />
+          <entry key="cpp" value="12538" />
           <entry key="txt" value="232" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="CMakeLists.txt" value="199" />
-          <entry key="ObjectiveC" value="12474" />
+          <entry key="ObjectiveC" value="12538" />
           <entry key="PLAIN_TEXT" value="33" />
         </counts>
       </usages-collector>
@@ -1495,8 +1492,23 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$USER_HOME$/GAproj/ms1/cubebreathing/breathing.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="217">
-              <caret line="247" column="47" selection-start-line="247" selection-start-column="6" selection-end-line="247" selection-end-column="47" />
+            <state relative-caret-position="-2919">
+              <caret line="249" column="3" lean-forward="true" selection-start-line="249" selection-start-column="3" selection-end-line="249" selection-end-column="3" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/EAProj/EA.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="442">
+              <caret line="807" column="10" selection-start-line="807" selection-start-column="10" selection-end-line="807" selection-end-column="10" />
+              <folding>
+                <element signature="e#28#46#0" expanded="true" />
+                <element signature="e#92#111#0" expanded="true" />
+                <element signature="e#191#214#0" expanded="true" />
+                <element signature="e#10895#22404#0" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -1506,21 +1518,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="54">
               <caret line="3" column="26" selection-start-line="3" selection-start-column="26" selection-end-line="3" selection-end-column="26" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/EAProj/EA.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="378">
-              <caret line="770" column="30" lean-forward="true" selection-start-line="770" selection-start-column="30" selection-end-line="770" selection-end-column="30" />
-              <folding>
-                <element signature="e#28#46#0" expanded="true" />
-                <element signature="e#92#111#0" expanded="true" />
-                <element signature="e#191#214#0" expanded="true" />
-                <element signature="e#10895#22404#0" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -1621,8 +1618,8 @@
       <find>InitialHeight</find>
       <find>applygrou</find>
       <find>applyFriction</find>
-      <find>else</find>
       <find>initMassPosition</find>
+      <find>else</find>
     </findStrings>
     <replaceStrings>
       <replace>ArrayX2dRowMajor</replace>
@@ -10235,7 +10232,7 @@
       <workItem from="1543386321748" duration="3079000" />
       <workItem from="1543443706679" duration="47100000" />
       <workItem from="1543558830284" duration="35937000" />
-      <workItem from="1543649389681" duration="90458000" />
+      <workItem from="1543649389681" duration="92510000" />
     </task>
     <task id="LOCAL-00001" summary="add my files">
       <created>1542767417738</created>
@@ -10262,7 +10259,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="217736000" />
+    <option name="totallyTimeSpent" value="219788000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -10456,15 +10453,15 @@
     </entry>
     <entry file="file://$USER_HOME$/GAproj/ms1/cubebreathing/breathing.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="217">
-          <caret line="247" column="47" selection-start-line="247" selection-start-column="6" selection-end-line="247" selection-end-column="47" />
+        <state relative-caret-position="-2919">
+          <caret line="249" column="3" lean-forward="true" selection-start-line="249" selection-start-column="3" selection-end-line="249" selection-end-column="3" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/EAProj/EA.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="770" column="30" lean-forward="true" selection-start-line="770" selection-start-column="30" selection-end-line="770" selection-end-column="30" />
+        <state relative-caret-position="442">
+          <caret line="807" column="10" selection-start-line="807" selection-start-column="10" selection-end-line="807" selection-end-column="10" />
           <folding>
             <element signature="e#28#46#0" expanded="true" />
             <element signature="e#92#111#0" expanded="true" />
