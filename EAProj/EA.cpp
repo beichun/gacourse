@@ -41,7 +41,9 @@ const double PI = 3.1415926;
 const double Mass = 0.1;  //kg
 const double SpringConstraint = 1000;  //N/m
 const double Length = 0.1;
-const double w = 5*PI;
+const double w = 4*PI;
+const double CoefaRange = 0.02;
+const double CoefbRange = PI;
 
 //friction coefficients for glass on glass
 const double Muk = 0.8;
@@ -55,7 +57,6 @@ const double Gravity[3] = {0,0,-9.81};
 //const double Gravity[3] = {0,0,-0.5};
 
 const double kc = 10000;
-//const double kc = 0;
 
 const double DampingCoef = 0.999;
 
@@ -165,6 +166,9 @@ ArrayX3dRowMajor initMassPosition(){
         }
     }
     massPosition *= Length;
+    for (int i=0;i<num_masses;i++){
+        massPosition(i,2) += InitialHeight;
+    }
     //std::cout<<massPosition<<std::endl;
     return massPosition;
 }
@@ -210,14 +214,14 @@ ArrayX2dRowMajor initSpringtoMass(
 Eigen::ArrayXd initSpringCoefa(){
 
     Eigen::ArrayXd springCoefa(num_cubes);
-    springCoefa = 0.02*Eigen::ArrayXd::Ones(num_cubes);
+    springCoefa = CoefaRange*Eigen::ArrayXd::Random(num_cubes);
     return springCoefa;
 }
 
 
 Eigen::ArrayXd initSpringCoefb(){
     Eigen::ArrayXd springCoefb(num_cubes);
-    springCoefb = PI*Eigen::ArrayXd::Random(num_cubes);
+    springCoefb = CoefbRange*Eigen::ArrayXd::Random(num_cubes);
     //std::cout<<springCoefb<<std::endl;
     return springCoefb;
 }
@@ -267,21 +271,6 @@ inline void applySpringForces(
 
         massForces.row(springtoMass(i,0)) = massForces.row(springtoMass(i,0)) - force;
         massForces.row(springtoMass(i,1)) = massForces.row(springtoMass(i,1)) + force;
-    }
-}
-
-
-inline void applyGroundForces(
-        ArrayX3dRowMajor& massPosition,
-        ArrayX3dRowMajor& massForces){
-    double height;
-    double ground_force;
-    for (int i=0;i<num_masses;i++){
-        height = massPosition(i,2);
-        if (height<0) {
-            ground_force = kc * sq(height);
-            massForces(i,2) += ground_force;
-        }
     }
 }
 
@@ -749,12 +738,25 @@ double simulate(
     return fitness;
 }
 
+void mutate(
+        Eigen::ArrayXd& springCoefa_new,
+        Eigen::ArrayXd& springCoefb_new){
+    double r = ((double) rand() / (RAND_MAX));
+    int r1 = int(2*r*num_cubes);
+    if (r1<num_cubes) {
+        springCoefa_new(r1) = CoefaRange*((double) rand() / (RAND_MAX));
+    }
+    else{
+        springCoefb_new(r1-num_cubes) = CoefbRange*((double) rand() / (RAND_MAX));
+    }
+    //std::cout<<r1<<std::endl;
+}
+
 int main() {
 
     Eigen::ArrayXi cubeVertex = initCubeVertex();
     Eigen::ArrayXi triangleVertex = initTriangleVertex();
     ArrayX3dRowMajor baseMassPosition = initBaseMassPosition();
-    ArrayX3dRowMajor massPosition = initMassPosition();
     ArrayX3dRowMajor massVelocity = initMassVelocity();
     ArrayX3dRowMajor massAcceleration = ArrayX3dRowMajor::Zero(num_masses,3);
     ArrayX2dRowMajor baseSpringtoMass = initBaseSpringtoMass();
@@ -765,8 +767,8 @@ int main() {
 
 
     int num_frames = 5000;
-    int skip_frames = 16;
-    int num_evaluations = 100;
+    int skip_frames = 32;
+    int num_evaluations = 500;
     /*#pragma omp parallel
     printf("Hello, world.\n");*/
 
@@ -775,32 +777,40 @@ int main() {
     ArrayX3dRowMajor position_history = ArrayX3dRowMajor::Zero(num_frames*num_masses,3);
     ArrayX3dRowMajor best_position_history = ArrayX3dRowMajor::Zero(num_frames*num_masses,3);
 
+    Eigen::ArrayXd springCoefa_best = initSpringCoefa();
+    Eigen::ArrayXd springCoefb_best = initSpringCoefb();
+
+    Eigen::ArrayXd springCoefa_new = springCoefa_best;
+    Eigen::ArrayXd springCoefb_new = springCoefb_best;
 
     for (int i=0;i<num_evaluations;i++){
         // initialize the structure
-        Eigen::ArrayXd springCoefa = initSpringCoefa();
-        Eigen::ArrayXd springCoefb = initSpringCoefb();
+        springCoefa_new = springCoefa_best;
+        springCoefb_new = springCoefb_best;
+
+        //mutate
+        mutate(springCoefa_new,springCoefb_new);
 
         // simulate it get the fitness
+        ArrayX3dRowMajor massPosition = initMassPosition();
 
-        massPosition = initMassPosition();
-        for (int i=0;i<num_masses;i++){
-            massPosition(i,2) += InitialHeight;
-        }
         new_fitness = simulate(
                 num_frames,
                 skip_frames,
-                springCoefa,
-                springCoefb,
+                springCoefa_new,
+                springCoefb_new,
                 l0,
                 massPosition,
                 springtoMass,
                 massVelocity,
                 massAcceleration,
                 position_history);
+        std::cout<<new_fitness<<std::endl;
         if (new_fitness>=best_fitness) {
             best_fitness = new_fitness;
             best_position_history = position_history;
+            springCoefa_best = springCoefa_new;
+            springCoefb_best = springCoefb_new;
         }
         std::cout<<"best_fitness "<<i<<" = "<<best_fitness<<std::endl;
     }

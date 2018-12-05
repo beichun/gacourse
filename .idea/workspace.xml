@@ -1425,7 +1425,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="443a82b3-43bd-4f68-94db-fb98a9235e01" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EAProj/EA.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/EAProj/EA.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/eaproj.dir/EAProj/EA.cpp.o" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/eaproj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/eaproj" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
@@ -1453,7 +1455,7 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="cpp" value="21" />
+          <entry key="cpp" value="22" />
           <entry key="eaproj (disassembly)" value="5" />
           <entry key="fragmentshader" value="2" />
           <entry key="h" value="5" />
@@ -1465,21 +1467,21 @@
         <counts>
           <entry key="CMakeLists.txt" value="4" />
           <entry key="Disassembly" value="5" />
-          <entry key="ObjectiveC" value="27" />
+          <entry key="ObjectiveC" value="28" />
           <entry key="PLAIN_TEXT" value="2" />
           <entry key="Scratch" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="cpp" value="12059" />
+          <entry key="cpp" value="12474" />
           <entry key="txt" value="232" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="CMakeLists.txt" value="199" />
-          <entry key="ObjectiveC" value="12059" />
+          <entry key="ObjectiveC" value="12474" />
           <entry key="PLAIN_TEXT" value="33" />
         </counts>
       </usages-collector>
@@ -1499,26 +1501,26 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/EAProj/EA.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-3294">
-              <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
-              <folding>
-                <element signature="e#28#46#0" expanded="true" />
-                <element signature="e#92#111#0" expanded="true" />
-                <element signature="e#191#214#0" expanded="true" />
-                <element signature="e#6517#16689#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/EAProj/TransformVertexShader.vertexshader">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="54">
               <caret line="3" column="26" selection-start-line="3" selection-start-column="26" selection-end-line="3" selection-end-column="26" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/EAProj/EA.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="378">
+              <caret line="770" column="30" lean-forward="true" selection-start-line="770" selection-start-column="30" selection-end-line="770" selection-end-column="30" />
+              <folding>
+                <element signature="e#28#46#0" expanded="true" />
+                <element signature="e#92#111#0" expanded="true" />
+                <element signature="e#191#214#0" expanded="true" />
+                <element signature="e#10895#22404#0" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -1591,7 +1593,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>Matrix2d</find>
       <find>programID</find>
       <find>GL_ARRAY_BUFFER</find>
       <find>triangles</find>
@@ -1619,8 +1620,9 @@
       <find>baseMassPosition</find>
       <find>InitialHeight</find>
       <find>applygrou</find>
-      <find>else</find>
       <find>applyFriction</find>
+      <find>else</find>
+      <find>initMassPosition</find>
     </findStrings>
     <replaceStrings>
       <replace>ArrayX2dRowMajor</replace>
@@ -1678,6 +1680,11 @@
             <path>
               <item name="Tutorials" type="b2602c69:ProjectViewProjectNode" />
               <item name="ogl" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Tutorials" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ogl" type="462c0819:PsiDirectoryNode" />
+              <item name="EAProj" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Tutorials" type="b2602c69:ProjectViewProjectNode" />
@@ -10228,7 +10235,7 @@
       <workItem from="1543386321748" duration="3079000" />
       <workItem from="1543443706679" duration="47100000" />
       <workItem from="1543558830284" duration="35937000" />
-      <workItem from="1543649389681" duration="84256000" />
+      <workItem from="1543649389681" duration="90458000" />
     </task>
     <task id="LOCAL-00001" summary="add my files">
       <created>1542767417738</created>
@@ -10255,7 +10262,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="211534000" />
+    <option name="totallyTimeSpent" value="217736000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -10433,13 +10440,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/GAproj/ms1/cubebreathing/breathing.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="217">
-          <caret line="247" column="47" selection-start-line="247" selection-start-column="6" selection-end-line="247" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="72">
@@ -10454,15 +10454,22 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$USER_HOME$/GAproj/ms1/cubebreathing/breathing.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="217">
+          <caret line="247" column="47" selection-start-line="247" selection-start-column="6" selection-end-line="247" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/EAProj/EA.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3294">
-          <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
+        <state relative-caret-position="378">
+          <caret line="770" column="30" lean-forward="true" selection-start-line="770" selection-start-column="30" selection-end-line="770" selection-end-column="30" />
           <folding>
             <element signature="e#28#46#0" expanded="true" />
             <element signature="e#92#111#0" expanded="true" />
             <element signature="e#191#214#0" expanded="true" />
-            <element signature="e#6517#16689#0" />
+            <element signature="e#10895#22404#0" />
           </folding>
         </state>
       </provider>
