@@ -5,6 +5,8 @@
 
 //include header for io
 #include <iostream>
+#include <fstream>
+#include <iomanip>
 
 #include <Eigen/Dense>
 
@@ -51,7 +53,7 @@ const double CoefbRange = 2*PI;
 const double Muk = 0.8;
 const double Mus = 1;
 
-const double InitialHeight = 0;
+const double InitialHeight = 0.5;
 const double InitialVelocityY = 0.0;
 const double TimeStep = 0.0005;  //s
 const double Gravity[3] = {0,0,-9.81};
@@ -445,7 +447,7 @@ int render(ArrayX3dRowMajor& position_history,
     // Camera matrix
     glm::mat4 View       = glm::lookAt(
             //glm::vec3(4,3,-3), // Camera is at (4,3,-3), in World Space
-            glm::vec3(1,1.5,1.5),
+            glm::vec3(2,3,1.5),
             glm::vec3(0,0,0), // and looks at the origin
             glm::vec3(0,0,1)  // Head is up (set to 0,-1,0 to look upside-down)
     );
@@ -703,8 +705,8 @@ double simulate(
         ArrayX3dRowMajor& massPosition,
         ArrayX2dRowMajor& springtoMass,
         ArrayX3dRowMajor& massVelocity,
-        ArrayX3dRowMajor& massAcceleration
-        ,ArrayX3dRowMajor& position_history
+        ArrayX3dRowMajor& massAcceleration,
+        ArrayX3dRowMajor& position_history
         ){
 
     double time_stamp = 0.000;
@@ -732,12 +734,11 @@ double simulate(
         position_history.block(i*num_masses,0,num_masses,3) = massPosition;
     }
     double fitness = 0;
-    for (int i=0;i<c;i++){
+    for (int i=0;i<c+1;i++){
         for (int j=(a+1)*b;j<(a+1)*(b+1);j++)
         fitness += massPosition(i*(a+1)*(b+1)+j,1);
     }
     fitness /= (a+1)*(c+1);
-    //std::cout<<"fitness="<<fitness<<std::endl;
     return fitness;
 }
 
@@ -851,10 +852,9 @@ int main() {
 
     int num_frames = 1000;
     int skip_frames = 32;
-    int num_evaluations = 2048;
-    int population_size = 16;
+    int num_evaluations = 2048*8;
+    int population_size = 64*2;
     int selection_pressure = population_size / 2;
-    int num_offspring = population_size - selection_pressure;
     int num_generation = num_evaluations / population_size;
     /*#pragma omp parallel
     printf("Hello, world.\n");*/
@@ -879,7 +879,7 @@ int main() {
 
 
     int best_solution = 0;
-    double best_fitness = -9999999999;
+    double best_fitness = -999;
     ArrayX3dRowMajor best_position_history= ArrayX3dRowMajor::Zero(num_frames*num_masses,3);
 
 #pragma omp parallel for
