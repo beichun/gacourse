@@ -28,12 +28,8 @@ typedef Eigen::Array<double,Eigen::Dynamic,2,Eigen::RowMajor> ArrayX2dRowMajor;
 GLFWwindow* window;
 
 //define object shape
-//const int a = 3;
-//const int b = 10;
-//const int c = 3;
-
-const int a = 5;
-const int b = 1;
+const int a = 1;
+const int b = 5;
 const int c = 1;
 
 const int num_masses = (a+1)*(b+1)*(c+1);
@@ -45,13 +41,13 @@ const double PI = 3.1415926;
 const double Mass = 0.1;  //kg
 const double SpringConstraint = 1000;  //N/m
 const double Length = 0.1;
-const double w = PI;
+const double w = 2*PI;
 
 //friction coefficients for glass on glass
 const double Muk = 0.8;
 const double Mus = 1;
 
-const double InitialHeight = 0.0;
+const double InitialHeight = 0.5;
 const double InitialVelocityY = 0.0;
 const double TimeStep = 0.0005;  //s
 const double Gravity[3] = {0,0,-9.81};
@@ -222,7 +218,7 @@ Eigen::ArrayXd initSpringCoefa(){
 Eigen::ArrayXd initSpringCoefb(){
     Eigen::ArrayXd springCoefb(num_cubes);
     springCoefb = PI*Eigen::ArrayXd::Random(num_cubes);
-    std::cout<<springCoefb<<std::endl;
+    //std::cout<<springCoefb<<std::endl;
     return springCoefb;
 }
 
@@ -385,7 +381,7 @@ void calculateEnergy(
         }
     }
     double total_energy = kinetic_energy + gravitational_energy + spring_energy + ground_energy;
-    std::cout<<"total = "<<total_energy<<std::endl;
+    //std::cout<<"total = "<<total_energy<<std::endl;
 }
 
 
@@ -707,7 +703,51 @@ int render(ArrayX3dRowMajor& position_history,
     return 0;
 }
 
-double simulate()
+double simulate(
+        int num_frames,
+        int skip_frames,
+        Eigen::ArrayXd& springCoefa,
+        Eigen::ArrayXd& springCoefb,
+        Eigen::ArrayXd& l0,
+        ArrayX3dRowMajor& massPosition,
+        ArrayX2dRowMajor& springtoMass,
+        ArrayX3dRowMajor& massVelocity,
+        ArrayX3dRowMajor& massAcceleration,
+        ArrayX3dRowMajor& position_history){
+
+    double time_stamp = 0.000;
+    ArrayX3dRowMajor massForces = ArrayX3dRowMajor::Zero(num_masses,3);
+    for (int i = 0; i <num_frames; ++i) {
+        for (int j = 0; j <skip_frames; ++j) {
+            massForces.setZero();
+
+            Eigen::ArrayXd l0t = Setl0t(
+                    time_stamp,
+                    springCoefa,
+                    springCoefb,
+                    l0);
+
+            applyGravity(massForces);
+            applySpringForces(l0t,massPosition,massForces,springtoMass);
+            applyFrictionandGroundForces(massPosition,massForces,massVelocity);
+            massAcceleration = massForces/Mass;
+            massVelocity += massAcceleration*TimeStep;
+            massVelocity *= DampingCoef;
+            massPosition += massVelocity*TimeStep;
+
+            time_stamp += TimeStep;
+        }
+        position_history.block(i*num_masses,0,num_masses,3) = massPosition;
+    }
+    double fitness = 0;
+    for (int i=0;i<c;i++){
+        for (int j=(a+1)*b;j<(a+1)*(b+1);j++)
+        fitness += massPosition(i*(a+1)*(b+1)+j,1);
+    }
+    fitness /= (a+1)*(c+1);
+    //std::cout<<"fitness="<<fitness<<std::endl;
+    return fitness;
+}
 
 int main() {
 
@@ -721,66 +761,54 @@ int main() {
     ArrayX2dRowMajor springtoMass = initSpringtoMass(
             baseSpringtoMass,
             baseMassPosition);
-    Eigen::ArrayXd springCoefa = initSpringCoefa();
-    Eigen::ArrayXd springCoefb = initSpringCoefb();
     Eigen::ArrayXd l0 = initL0();
-    double time_stamp = 0.000;
-    Eigen::ArrayXd l0t = Setl0t(
-            time_stamp,
-            springCoefa,
-            springCoefb,
-            l0);
 
-//    l0 = 0.8*l0;
-
-    for (int i=0;i<num_masses;i++){
-        massPosition(i,2) += InitialHeight;
-    }
-    std::cout<<"massPosition"<<massPosition<<std::endl;
-    //std::cout<<l0t<<std::endl;
-
-
-    /*#pragma omp parallel
-    printf("Hello, world.\n");*/
-    // initialize the structure
-
-    // simulate it get the fitness
 
     int num_frames = 5000;
     int skip_frames = 16;
+    int num_evaluations = 50;
+    /*#pragma omp parallel
+    printf("Hello, world.\n");*/
 
+    double fitness;
+    double best_fitness;
     ArrayX3dRowMajor position_history = ArrayX3dRowMajor::Zero(num_frames*num_masses,3);
-    ArrayX3dRowMajor massForces = ArrayX3dRowMajor::Zero(num_masses,3);
-    for (int i = 0; i <num_frames; ++i) {
-        for (int j = 0; j <skip_frames; ++j) {
-            massForces.setZero();
-
-            Eigen::ArrayXd l0t = Setl0t(
-                    time_stamp,
-                    springCoefa,
-                    springCoefb,
-                    l0);
+    ArrayX3dRowMajor best_position_history = ArrayX3dRowMajor::Zero(num_frames*num_masses,3);
 
 
+    for (int i=0;i<num_evaluations;i++){
+        // initialize the structure
+        Eigen::ArrayXd springCoefa = initSpringCoefa();
+        Eigen::ArrayXd springCoefb = initSpringCoefb();
 
-            applyGravity(massForces);
-            applySpringForces(l0t,massPosition,massForces,springtoMass);
-//            applySpringForces(l0,massPosition,massForces,springtoMass);
-            applyFrictionandGroundForces(massPosition,massForces,massVelocity);
-            massAcceleration = massForces/Mass;
-            massVelocity += massAcceleration*TimeStep;
-            massVelocity *= DampingCoef;
-            massPosition += massVelocity*TimeStep;
-            //calculateEnergy(massVelocity,massPosition,springtoMass,l0t);
+        // simulate it get the fitness
 
-            time_stamp += TimeStep;
+        massPosition = initMassPosition();
+        for (int i=0;i<num_masses;i++){
+            massPosition(i,2) += InitialHeight;
         }
-        position_history.block(i*num_masses,0,num_masses,3) = massPosition;
+        fitness = simulate(
+                num_frames,
+                skip_frames,
+                springCoefa,
+                springCoefb,
+                l0,
+                massPosition,
+                springtoMass,
+                massVelocity,
+                massAcceleration,
+                position_history);
+        if (fitness>=best_fitness) {
+            best_fitness = fitness;
+            best_position_history = position_history;
+        }
+        std::cout<<"best_fitness "<<i<<" = "<<best_fitness<<std::endl;
     }
+    //std::cout<<"best_fitness "<<best_fitness<<std::endl;
 
 
     // render this in glfw
-    render(position_history,
+    render(best_position_history,
            triangleVertex,
            cubeVertex,
            springtoMass);
