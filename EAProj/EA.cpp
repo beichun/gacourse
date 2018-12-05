@@ -22,7 +22,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-
+typedef Eigen::Array<double,1,Eigen::Dynamic,Eigen::RowMajor> ArrayXdRowMajor;
 typedef Eigen::Array<double,Eigen::Dynamic,3,Eigen::RowMajor> ArrayX3dRowMajor;
 typedef Eigen::Array<double,Eigen::Dynamic,2,Eigen::RowMajor> ArrayX2dRowMajor;
 typedef Eigen::Array<double,Eigen::Dynamic,Eigen::Dynamic,Eigen::RowMajor> ArrayXXdRowMajor;
@@ -51,7 +51,7 @@ const double CoefbRange = 2*PI;
 const double Muk = 0.8;
 const double Mus = 1;
 
-const double InitialHeight = 0.5;
+const double InitialHeight = 0;
 const double InitialVelocityY = 0.0;
 const double TimeStep = 0.0005;  //s
 const double Gravity[3] = {0,0,-9.81};
@@ -213,7 +213,7 @@ ArrayX2dRowMajor initSpringtoMass(
 }
 
 
-ArrayXXdRowMajor initSpringCoefa(int population_size){
+ArrayXXdRowMajor initSpringCoefa(int num_cubes, int population_size){
 
     ArrayXXdRowMajor springCoefa(num_cubes,population_size);
     springCoefa = CoefaRange*ArrayXXdRowMajor::Random(num_cubes,population_size);
@@ -221,7 +221,7 @@ ArrayXXdRowMajor initSpringCoefa(int population_size){
 }
 
 
-ArrayXXdRowMajor initSpringCoefb(int population_size){
+ArrayXXdRowMajor initSpringCoefb(int num_cubes, int population_size){
     ArrayXXdRowMajor springCoefb(num_cubes,population_size);
     springCoefb = CoefbRange*ArrayXXdRowMajor::Random(num_cubes,population_size);
     //std::cout<<springCoefb<<std::endl;
@@ -319,8 +319,8 @@ inline void applyFrictionandGroundForces(
 
 Eigen::ArrayXd Setl0t(
         double& timeStamp,
-        Eigen::ArrayXd& springCoefa,
-        Eigen::ArrayXd& springCoefb,
+        ArrayXdRowMajor& springCoefa,
+        ArrayXdRowMajor& springCoefb,
         Eigen::ArrayXd& l0){
     Eigen::ArrayXd l0t(num_springs);
     //std::cout<<"l0t.size()="<<l0t.size()<<std::endl;
@@ -697,14 +697,14 @@ int render(ArrayX3dRowMajor& position_history,
 double simulate(
         int num_frames,
         int skip_frames,
-        Eigen::ArrayXd& springCoefa,
-        Eigen::ArrayXd& springCoefb,
+        ArrayXdRowMajor& springCoefa,
+        ArrayXdRowMajor& springCoefb,
         Eigen::ArrayXd& l0,
         ArrayX3dRowMajor& massPosition,
         ArrayX2dRowMajor& springtoMass,
         ArrayX3dRowMajor& massVelocity,
         ArrayX3dRowMajor& massAcceleration
-        //,ArrayX3dRowMajor& position_history
+        ,ArrayX3dRowMajor& position_history
         ){
 
     double time_stamp = 0.000;
@@ -729,7 +729,7 @@ double simulate(
 
             time_stamp += TimeStep;
         }
-        //position_history.block(i*num_masses,0,num_masses,3) = massPosition;
+        position_history.block(i*num_masses,0,num_masses,3) = massPosition;
     }
     double fitness = 0;
     for (int i=0;i<c;i++){
@@ -741,9 +741,8 @@ double simulate(
     return fitness;
 }
 
-
-
-Eigen::ArrayXi orderFitness(const Eigen::ArrayXd& values) {
+template<typename T>
+Eigen::ArrayXi orderFitness(const Eigen::DenseBase<T>& values) {
     Eigen::ArrayXi indices(values.size());
     for (int i = 0; i <values.size(); ++i) {
         indices(i) = i;
@@ -773,27 +772,50 @@ void selection(
 }
 
 
-void crossover(
-        ArrayXXdRowMajor& springCoefa_best,
-        ArrayXXdRowMajor& springCoefb_best,
-        ArrayXXdRowMajor& springCoefa_new,
-        ArrayXXdRowMajor& springCoefb_new,
-        Eigen::ArrayXd& new_fitness,
-        int population_size,
-        int selection_pressure){
-    std::random_device rd;  //Will be used to obtain a seed for the random number engine
-    std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
-    std::uniform_real_distribution<> dis(0.0, 1.0);
-    for (int i=selection_pressure;i<population_size;){
-        int parent1 = selection_pressure * dis(gen);
-        int parent2 = selection_pressure * dis(gen);
-        do {
-            parent2 = selection_pressure * dis(gen);
-        } while (parent1==parent2);
-
-        
-    }
-}
+//void crossover(
+//        ArrayXXdRowMajor& springCoefa_best,
+//        ArrayXXdRowMajor& springCoefb_best,
+//        ArrayXXdRowMajor& springCoefa_new,
+//        ArrayXXdRowMajor& springCoefb_new,
+//        Eigen::ArrayXd& new_fitness,
+//        int population_size,
+//        int selection_pressure){
+//
+//    Eigen::ArrayXd offspringa;
+//    Eigen::ArrayXd offspringb;
+//
+//    std::random_device rd;  //Will be used to obtain a seed for the random number engine
+//    std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
+//    std::uniform_real_distribution<> dis(0.0, 1.0);
+//    for (int i=selection_pressure;i<population_size;){
+//        int parent1 = int(selection_pressure * dis(gen));
+//        int parent2 = int(selection_pressure * dis(gen));
+//        do {
+//            parent2 = int(selection_pressure * dis(gen));
+//        } while (parent1==parent2);
+//
+//        int st = int (num_cubes * dis(gen));
+//        int ed = int (num_cubes * dis(gen));
+//        do {
+//            st = int (num_cubes * dis(gen));
+//            ed = int (num_cubes * dis(gen));
+//        } while (st>=ed);
+//
+//        offspringa = springCoefa_best.row(parent1);
+//        offspringb = springCoefa_best.row(parent1);
+//        offspringa.block(st,0,ed,0) = springCoefa_best.block(st,parent2,ed,parent1);
+//        offspringb.block(st,0,ed,0) = springCoefb_best.block(st,parent2,ed,parent1);
+//
+//        double offspring_fitness = simulate(num_frames, skip_frames,
+//                ArrayXdRowMajor& springCoefa,
+//                ArrayXdRowMajor& springCoefb,
+//                Eigen::ArrayXd& l0,
+//                ArrayX3dRowMajor& massPosition,
+//                ArrayX2dRowMajor& springtoMass,
+//                ArrayX3dRowMajor& massVelocity,
+//                ArrayX3dRowMajor& massAcceleration);
+//    }
+//}
 
 
 void mutate(
@@ -819,7 +841,7 @@ int main() {
     Eigen::ArrayXi triangleVertex = initTriangleVertex();
     ArrayX3dRowMajor baseMassPosition = initBaseMassPosition();
     ArrayX3dRowMajor massVelocity = initMassVelocity();
-    ArrayX3dRowMajor massAcceleration = ArrayX3dRowMajor::Zero(num_masses,3);
+    ArrayX3dRowMajor massAcceleration = ArrayX3dRowMajor::Zero(num_masses, 3);
     ArrayX2dRowMajor baseSpringtoMass = initBaseSpringtoMass();
     ArrayX2dRowMajor springtoMass = initSpringtoMass(
             baseSpringtoMass,
@@ -827,84 +849,161 @@ int main() {
     Eigen::ArrayXd l0 = initL0();
 
 
-    int num_frames = 5000;
+    int num_frames = 1000;
     int skip_frames = 32;
-    int num_evaluations = 1000;
-    int population_size = 100;
-    int selection_pressure = population_size/2;
+    int num_evaluations = 2048;
+    int population_size = 16;
+    int selection_pressure = population_size / 2;
     int num_offspring = population_size - selection_pressure;
-    int num_generation = num_evaluations/population_size;
+    int num_generation = num_evaluations / population_size;
     /*#pragma omp parallel
     printf("Hello, world.\n");*/
 
-    Eigen::ArrayXd best_fitness(population_size);
-    Eigen::ArrayXd new_fitness(population_size);
+    Eigen::ArrayXd best_fitness_arr(population_size);
     //ArrayX3dRowMajor best_position_history = ArrayX3dRowMajor::Zero(num_frames*num_masses,3);
 
-    ArrayXXdRowMajor springCoefa_best = initSpringCoefa(population_size);
-    ArrayXXdRowMajor springCoefb_best = initSpringCoefb(population_size);
-
-    Eigen::ArrayXd springCoefa_new = springCoefa_best;
-    Eigen::ArrayXd springCoefb_new = springCoefb_best;
-
+    ArrayXXdRowMajor springCoefa_arr = initSpringCoefa(population_size,num_cubes);
+    ArrayXXdRowMajor springCoefb_arr = initSpringCoefb(population_size,num_cubes);
     ArrayX3dRowMajor massPosition = initMassPosition();
 
-    for (int i=0;i<population_size;i++) {
-        best_fitness(i) = simulate(
+
+
+
+    std::random_device rd;  //Will be used to obtain a seed for the random number engine
+    std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
+    std::uniform_real_distribution<> dis(0.0, 1.0);
+    std::uniform_int_distribution<> dis_selection(0,selection_pressure-1);
+    std::uniform_int_distribution<> dis_cubes(0,num_cubes-1);
+    std::uniform_real_distribution<> dis_coefa(0.0, CoefaRange);
+    std::uniform_real_distribution<> dis_coefb(0.0, CoefbRange);
+
+
+    int best_solution = 0;
+    double best_fitness = -9999999999;
+    ArrayX3dRowMajor best_position_history= ArrayX3dRowMajor::Zero(num_frames*num_masses,3);
+
+#pragma omp parallel for
+    for (int i = 0; i < population_size; i++) {
+        std::cout<<i<<std::endl;
+        ArrayXdRowMajor springCoefa_i = springCoefa_arr.block(i, 0, 1, num_cubes);
+        ArrayXdRowMajor springCoefb_i = springCoefb_arr.block(i, 0, 1, num_cubes);
+
+        ArrayX3dRowMajor massPosition_i = ArrayX3dRowMajor(massPosition);
+        ArrayX3dRowMajor massVelocity_i = ArrayX3dRowMajor::Zero(num_masses, 3);
+        ArrayX3dRowMajor massAcceleration_i = ArrayX3dRowMajor::Zero(num_masses, 3);
+
+        ArrayX3dRowMajor position_history_i = ArrayX3dRowMajor::Zero(num_frames*num_masses,3);
+
+        best_fitness_arr(i) = simulate(
                 num_frames,
                 skip_frames,
-                springCoefa_best,
-                springCoefb_best,
+                springCoefa_i,
+                springCoefb_i,
                 l0,
-                massPosition,
+                massPosition_i,
                 springtoMass,
-                massVelocity,
-                massAcceleration
+                massVelocity_i,
+                massAcceleration_i,
+                position_history_i);
+        if(i==0){
+            best_position_history =position_history_i;
+            best_solution = i;
+        }
     }
+
+
+
+
+
+
+
 
 //    #pragma omp parallel for
-    for (int i=0;i<num_evaluations;i++){
+    for (int i_generation = 0; i_generation < num_generation; i_generation++) {
+        Eigen::ArrayXi fitness_indices(population_size);
 
-        selection(springCoefa_best,springCoefb_best,springCoefa_new,springCoefb_new,best_fitness,new_fitness,selection_pressure);
+        fitness_indices = orderFitness(best_fitness_arr);
+        std::cout << "generation" <<i_generation<< std::endl;
 
-        crossover(springCoefa_best,springCoefb_best,springCoefa_new,springCoefb_new,new_fitness,population_size,selection_pressure);
+#pragma omp parallel for
+        for (int j = 0; j < selection_pressure; ++j) {
+            // crossover
+            int parent1 = fitness_indices(j);
+            int parent2;
+            do {
+                parent2 = fitness_indices(dis_selection(gen));
 
-        //mutate
-        mutate(springCoefa_new,springCoefb_new);
+            } while (parent1 == parent2);
+            int st, ed;
+            do {
+                st = dis_cubes(gen);
+                ed = dis_cubes(gen);
+            } while (st > ed);
 
-        // simulate it get the fitness
-        ArrayX3dRowMajor massPosition = initMassPosition();
+            ArrayXdRowMajor springCoefa_i = springCoefa_arr.block(parent1, 0, 1, num_cubes);
+            ArrayXdRowMajor springCoefb_i = springCoefb_arr.block(parent1, 0, 1, num_cubes);
 
-        /*new_fitness = simulate(
-                num_frames,
-                skip_frames,
-                springCoefa_new,
-                springCoefb_new,
-                l0,
-                massPosition,
-                springtoMass,
-                massVelocity,
-                massAcceleration,
-                position_history);*/
-        //std::cout<<new_fitness<<std::endl;
-        if (new_fitness>=best_fitness) {
-            best_fitness = new_fitness;
-            //best_position_history = position_history;
-            springCoefa_best = springCoefa_new;
-            springCoefb_best = springCoefb_new;
+            springCoefa_i.block(0, st, 1, ed - st + 1) = springCoefa_arr.block(parent2, st, 1, ed - st + 1);
+            springCoefb_i.block(0, st, 1, ed - st + 1) = springCoefb_arr.block(parent2, st, 1, ed - st + 1);
+
+
+            // mutation
+            int mutation_point = dis_cubes(gen);
+
+            springCoefa_i(mutation_point) = dis_coefa(gen);
+            springCoefb_i(mutation_point) = dis_coefb(gen);
+
+
+            ArrayX3dRowMajor massPosition_i = ArrayX3dRowMajor(massPosition);
+            ArrayX3dRowMajor massVelocity_i = ArrayX3dRowMajor::Zero(num_masses, 3);
+            ArrayX3dRowMajor massAcceleration_i = ArrayX3dRowMajor::Zero(num_masses, 3);
+
+
+            ArrayX3dRowMajor position_history_i = ArrayX3dRowMajor::Zero(num_frames * num_masses, 3);
+
+            double fitness_child = simulate(
+                    num_frames,
+                    skip_frames,
+                    springCoefa_i,
+                    springCoefb_i,
+                    l0,
+                    massPosition_i,
+                    springtoMass,
+                    massVelocity_i,
+                    massAcceleration_i,
+                    position_history_i);
+
+
+            if (fitness_child > best_fitness_arr(parent1)) {
+                //replace this parent
+                springCoefa_arr.block(parent1, 0, 1, num_cubes) = springCoefa_i;
+                springCoefb_arr.block(parent1, 0, 1, num_cubes) = springCoefb_i;
+                best_fitness_arr(parent1) = fitness_child;
+
+                if (fitness_child > best_fitness) {
+                    best_position_history = position_history_i;
+                    best_solution = parent1;
+                    best_fitness = fitness_child;
+                    std::cout<<"best = "<<best_fitness<<std::endl;
+                }
+            } else {
+                int parent_for_replacement = fitness_indices(selection_pressure + j);
+                springCoefa_arr.block(parent_for_replacement, 0, 1, num_cubes) = springCoefa_i;
+                springCoefb_arr.block(parent_for_replacement, 0, 1, num_cubes) = springCoefb_i;
+                best_fitness_arr(parent_for_replacement) = fitness_child;
+                // put it somewhere else
+            }
         }
-        if (i%10==0) std::cout<<"best_fitness "<<i<<" = "<<best_fitness<<std::endl;
+
+
     }
-    //std::cout<<"best_fitness "<<best_fitness<<std::endl;
-    std::cout<<"springCoefa_best = \n"<<springCoefa_best<<std::endl;
-    std::cout<<"springCoefa_best = \n"<<springCoefb_best<<std::endl;
+//    std::cout<<best_position_history<<std::endl;
 
     // render this in glfw
     render(best_position_history,
            triangleVertex,
            cubeVertex,
            springtoMass);
-
 
     return 0;
 }
