@@ -53,7 +53,7 @@ const double CoefbRange = 2*PI;
 const double Muk = 0.8;
 const double Mus = 1;
 
-const double InitialHeight = 0.5;
+const double InitialHeight = 0.0;
 const double InitialVelocityY = 0.0;
 const double TimeStep = 0.0005;  //s
 const double Gravity[3] = {0,0,-9.81};
@@ -397,7 +397,7 @@ int render(ArrayX3dRowMajor& position_history,
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     // Open a window and create its OpenGL context
-    window = glfwCreateWindow( 1024, 768, "Tutorial 04 - Colored Cube", NULL, NULL);
+    window = glfwCreateWindow( 1024, 768, "Five Cubes", NULL, NULL);
     if( window == NULL ){
         fprintf( stderr, "Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible. Try the 2.1 version of the tutorials.\n" );
         getchar();
@@ -447,7 +447,7 @@ int render(ArrayX3dRowMajor& position_history,
     // Camera matrix
     glm::mat4 View       = glm::lookAt(
             //glm::vec3(4,3,-3), // Camera is at (4,3,-3), in World Space
-            glm::vec3(2,3,1.5),
+            glm::vec3(1.5,2,1),
             glm::vec3(0,0,0), // and looks at the origin
             glm::vec3(0,0,1)  // Head is up (set to 0,-1,0 to look upside-down)
     );
@@ -836,6 +836,30 @@ void mutate(
     std::cout<<dis(gen)<<std::endl;
 }
 
+
+void savefitness(
+        int generation_i,
+        double best_fitness){
+    std::ofstream myfile;
+    if (generation_i==0)
+        myfile.open("best_fitness_history.txt");
+    else
+        myfile.open("best_fitness_history.txt",std::ios_base::app);
+    myfile<<generation_i<<"\t"<<best_fitness<<std::endl;
+    myfile.close();
+}
+
+void savefitnesshistory(
+        int generation_i,
+        Eigen::ArrayXd best_fitness_arr){
+    std::ofstream myfile;
+    if (generation_i==0)
+        myfile.open("fitness_history.txt");
+    else
+        myfile.open("fitness_history.txt",std::ios_base::app);
+    myfile<<best_fitness_arr<<std::endl;
+    myfile.close();
+}
 int main() {
 
     Eigen::ArrayXi cubeVertex = initCubeVertex();
@@ -852,8 +876,8 @@ int main() {
 
     int num_frames = 1000;
     int skip_frames = 32;
-    int num_evaluations = 2048*8;
-    int population_size = 64*2;
+    int num_evaluations = 2048*32;
+    int population_size = 128*4;
     int selection_pressure = population_size / 2;
     int num_generation = num_evaluations / population_size;
     /*#pragma omp parallel
@@ -882,9 +906,11 @@ int main() {
     double best_fitness = -999;
     ArrayX3dRowMajor best_position_history= ArrayX3dRowMajor::Zero(num_frames*num_masses,3);
 
+
+    //the first generation
 #pragma omp parallel for
     for (int i = 0; i < population_size; i++) {
-        std::cout<<i<<std::endl;
+        //std::cout<<i<<std::endl;
         ArrayXdRowMajor springCoefa_i = springCoefa_arr.block(i, 0, 1, num_cubes);
         ArrayXdRowMajor springCoefb_i = springCoefb_arr.block(i, 0, 1, num_cubes);
 
@@ -914,10 +940,6 @@ int main() {
 
 
 
-
-
-
-
 //    #pragma omp parallel for
     for (int i_generation = 0; i_generation < num_generation; i_generation++) {
         Eigen::ArrayXi fitness_indices(population_size);
@@ -925,14 +947,13 @@ int main() {
         fitness_indices = orderFitness(best_fitness_arr);
         std::cout << "generation" <<i_generation<< std::endl;
 
-#pragma omp parallel for
+        #pragma omp parallel for
         for (int j = 0; j < selection_pressure; ++j) {
             // crossover
             int parent1 = fitness_indices(j);
             int parent2;
             do {
                 parent2 = fitness_indices(dis_selection(gen));
-
             } while (parent1 == parent2);
             int st, ed;
             do {
@@ -995,9 +1016,12 @@ int main() {
             }
         }
 
-
+        savefitness(i_generation,best_fitness);
+        savefitnesshistory(i_generation,best_fitness_arr);
     }
-//    std::cout<<best_position_history<<std::endl;
+    //std::cout<<best_position_history<<std::endl;
+
+    //std::cout<<springCoefa_arr<<std::endl;
 
     // render this in glfw
     render(best_position_history,
