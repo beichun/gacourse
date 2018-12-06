@@ -1472,14 +1472,15 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="cpp" value="16174" />
+          <entry key="cpp" value="16254" />
           <entry key="txt" value="232" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="CMakeLists.txt" value="199" />
-          <entry key="ObjectiveC" value="16174" />
+          <entry key="Doxygen file" value="3" />
+          <entry key="ObjectiveC" value="16251" />
           <entry key="PLAIN_TEXT" value="33" />
         </counts>
       </usages-collector>
@@ -1505,11 +1506,10 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/EAProj/EA.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="54">
-              <caret line="801" selection-start-line="801" selection-end-line="803" selection-end-column="32" />
+            <state relative-caret-position="126">
+              <caret line="797" column="33" lean-forward="true" selection-start-line="797" selection-start-column="33" selection-end-line="797" selection-end-column="33" />
               <folding>
                 <element signature="e#28#46#0" expanded="true" />
-                <element signature="e#10934#22443#0" />
                 <element signature="e#24006#24018#0" expanded="true" />
               </folding>
             </state>
@@ -10220,7 +10220,7 @@
       <workItem from="1543443706679" duration="47100000" />
       <workItem from="1543558830284" duration="35937000" />
       <workItem from="1543649389681" duration="100099000" />
-      <workItem from="1543995033929" duration="36540000" />
+      <workItem from="1543995033929" duration="37990000" />
     </task>
     <task id="LOCAL-00001" summary="add my files">
       <created>1542767417738</created>
@@ -10243,11 +10243,25 @@
       <option name="project" value="LOCAL" />
       <updated>1543542221311</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="first cube">
+      <created>1544083516046</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1544083516046</updated>
+    </task>
+    <task id="LOCAL-00005" summary="first cube">
+      <created>1544083544631</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1544083544631</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="263917000" />
+    <option name="totallyTimeSpent" value="265367000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -10263,7 +10277,7 @@
     <editor active="true" />
     <layout>
       <window_info id="Favorites" order="0" sideWeight="0.5007474" side_tool="true" weight="0.18960752" />
-      <window_info active="true" content_ui="combo" id="Project" order="1" sideWeight="0.49790794" visible="true" weight="0.19624102" />
+      <window_info content_ui="combo" id="Project" order="1" sideWeight="0.49790794" visible="true" weight="0.19624102" />
       <window_info id="Structure" order="2" sideWeight="0.50209206" side_tool="true" weight="0.19181868" />
       <window_info anchor="bottom" id="CMake" order="0" weight="0.3294979" />
       <window_info anchor="bottom" id="Terminal" order="1" />
@@ -10272,7 +10286,7 @@
       <window_info anchor="bottom" id="Messages" order="4" weight="0.31799164" />
       <window_info anchor="bottom" id="Message" order="5" />
       <window_info anchor="bottom" id="Find" order="6" weight="0.3294979" />
-      <window_info anchor="bottom" id="Run" order="7" visible="true" weight="0.26987448" />
+      <window_info active="true" anchor="bottom" id="Run" order="7" visible="true" weight="0.26987448" />
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Debug" order="9" weight="0.39958158" />
       <window_info anchor="bottom" id="Cvs" order="10" weight="0.25" />
@@ -10298,6 +10312,8 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_NEW_TODO" value="false" />
     <MESSAGE value="add my files" />
     <MESSAGE value="test" />
     <MESSAGE value="first cube" />
@@ -10474,11 +10490,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/EAProj/EA.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
-          <caret line="801" selection-start-line="801" selection-end-line="803" selection-end-column="32" />
+        <state relative-caret-position="126">
+          <caret line="797" column="33" lean-forward="true" selection-start-line="797" selection-start-column="33" selection-end-line="797" selection-end-column="33" />
           <folding>
             <element signature="e#28#46#0" expanded="true" />
-            <element signature="e#10934#22443#0" />
             <element signature="e#24006#24018#0" expanded="true" />
           </folding>
         </state>
