@@ -795,7 +795,7 @@ int main() {
 
     int num_frames = 1000;
     int skip_frames = 32;
-    int num_evaluations = 2048*32;
+    int num_evaluations = 2048*64;
     int population_size = 128*4;
     int selection_pressure = population_size / 2;
     int num_generation = num_evaluations / population_size;
