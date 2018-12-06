@@ -57,8 +57,6 @@ const double InitialHeight = 0.0;
 const double InitialVelocityY = 0.0;
 const double TimeStep = 0.0005;  //s
 const double Gravity[3] = {0,0,-9.81};
-//
-//const double Gravity[3] = {0,0,-0.5};
 
 const double kc = 10000;
 
@@ -756,86 +754,6 @@ Eigen::ArrayXi orderFitness(const Eigen::DenseBase<T>& values) {
 }
 
 
-void selection(
-        ArrayXXdRowMajor& springCoefa_best,
-        ArrayXXdRowMajor& springCoefb_best,
-        ArrayXXdRowMajor& springCoefa_new,
-        ArrayXXdRowMajor& springCoefb_new,
-        Eigen::ArrayXd& best_fitness,
-        Eigen::ArrayXd& new_fitness,
-        int selection_pressure){
-    Eigen::ArrayXi fitness_order = orderFitness(best_fitness);
-    for (int i=0;i<selection_pressure;i++){
-        springCoefa_new = springCoefa_best(fitness_order(i));
-        springCoefb_new = springCoefb_best(fitness_order(i));
-        new_fitness(i) = best_fitness(fitness_order(i));
-    }
-}
-
-
-//void crossover(
-//        ArrayXXdRowMajor& springCoefa_best,
-//        ArrayXXdRowMajor& springCoefb_best,
-//        ArrayXXdRowMajor& springCoefa_new,
-//        ArrayXXdRowMajor& springCoefb_new,
-//        Eigen::ArrayXd& new_fitness,
-//        int population_size,
-//        int selection_pressure){
-//
-//    Eigen::ArrayXd offspringa;
-//    Eigen::ArrayXd offspringb;
-//
-//    std::random_device rd;  //Will be used to obtain a seed for the random number engine
-//    std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
-//    std::uniform_real_distribution<> dis(0.0, 1.0);
-//    for (int i=selection_pressure;i<population_size;){
-//        int parent1 = int(selection_pressure * dis(gen));
-//        int parent2 = int(selection_pressure * dis(gen));
-//        do {
-//            parent2 = int(selection_pressure * dis(gen));
-//        } while (parent1==parent2);
-//
-//        int st = int (num_cubes * dis(gen));
-//        int ed = int (num_cubes * dis(gen));
-//        do {
-//            st = int (num_cubes * dis(gen));
-//            ed = int (num_cubes * dis(gen));
-//        } while (st>=ed);
-//
-//        offspringa = springCoefa_best.row(parent1);
-//        offspringb = springCoefa_best.row(parent1);
-//        offspringa.block(st,0,ed,0) = springCoefa_best.block(st,parent2,ed,parent1);
-//        offspringb.block(st,0,ed,0) = springCoefb_best.block(st,parent2,ed,parent1);
-//
-//        double offspring_fitness = simulate(num_frames, skip_frames,
-//                ArrayXdRowMajor& springCoefa,
-//                ArrayXdRowMajor& springCoefb,
-//                Eigen::ArrayXd& l0,
-//                ArrayX3dRowMajor& massPosition,
-//                ArrayX2dRowMajor& springtoMass,
-//                ArrayX3dRowMajor& massVelocity,
-//                ArrayX3dRowMajor& massAcceleration);
-//    }
-//}
-
-
-void mutate(
-        Eigen::ArrayXd& springCoefa_new,
-        Eigen::ArrayXd& springCoefb_new){
-    std::random_device rd;  //Will be used to obtain a seed for the random number engine
-    std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
-    std::uniform_real_distribution<> dis(0.0, 1.0);
-    double r = dis(gen);
-    int r1 = int(2*r*num_cubes);
-    if (r1<num_cubes) {
-        springCoefa_new(r1) = CoefaRange*(dis(gen));
-    }
-    else{
-        springCoefb_new(r1-num_cubes) = CoefbRange*dis(gen);
-    }
-    std::cout<<dis(gen)<<std::endl;
-}
-
 
 void savefitness(
         int generation_i,
@@ -845,7 +763,8 @@ void savefitness(
         myfile.open("best_fitness_history.txt");
     else
         myfile.open("best_fitness_history.txt",std::ios_base::app);
-    myfile<<generation_i<<"\t"<<best_fitness<<std::endl;
+    //myfile<<generation_i<<"\t"<<best_fitness<<std::endl;
+    myfile<<best_fitness<<std::endl;
     myfile.close();
 }
 
@@ -880,17 +799,12 @@ int main() {
     int population_size = 128*4;
     int selection_pressure = population_size / 2;
     int num_generation = num_evaluations / population_size;
-    /*#pragma omp parallel
-    printf("Hello, world.\n");*/
 
     Eigen::ArrayXd best_fitness_arr(population_size);
-    //ArrayX3dRowMajor best_position_history = ArrayX3dRowMajor::Zero(num_frames*num_masses,3);
 
     ArrayXXdRowMajor springCoefa_arr = initSpringCoefa(population_size,num_cubes);
     ArrayXXdRowMajor springCoefb_arr = initSpringCoefb(population_size,num_cubes);
     ArrayX3dRowMajor massPosition = initMassPosition();
-
-
 
 
     std::random_device rd;  //Will be used to obtain a seed for the random number engine
@@ -1017,7 +931,7 @@ int main() {
         }
 
         savefitness(i_generation,best_fitness);
-        savefitnesshistory(i_generation,best_fitness_arr);
+        //savefitnesshistory(i_generation,best_fitness_arr);
     }
     //std::cout<<best_position_history<<std::endl;
 
