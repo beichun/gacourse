@@ -1425,11 +1425,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="443a82b3-43bd-4f68-94db-fb98a9235e01" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EAProj/EA.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/EAProj/EA.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EAProj/best_fitness_history.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/eaproj.dir/EAProj/EA.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/eaproj.dir/EAProj/EA.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/eaproj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/eaproj" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -1509,8 +1505,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/EAProj/EA.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-8100">
-              <caret line="35" column="16" selection-start-line="35" selection-start-column="16" selection-end-line="35" selection-end-column="16" />
+            <state relative-caret-position="54">
+              <caret line="801" selection-start-line="801" selection-end-line="803" selection-end-column="32" />
               <folding>
                 <element signature="e#28#46#0" expanded="true" />
                 <element signature="e#10934#22443#0" />
@@ -10224,7 +10220,7 @@
       <workItem from="1543443706679" duration="47100000" />
       <workItem from="1543558830284" duration="35937000" />
       <workItem from="1543649389681" duration="100099000" />
-      <workItem from="1543995033929" duration="35994000" />
+      <workItem from="1543995033929" duration="36540000" />
     </task>
     <task id="LOCAL-00001" summary="add my files">
       <created>1542767417738</created>
@@ -10251,7 +10247,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="263371000" />
+    <option name="totallyTimeSpent" value="263917000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -10267,7 +10263,7 @@
     <editor active="true" />
     <layout>
       <window_info id="Favorites" order="0" sideWeight="0.5007474" side_tool="true" weight="0.18960752" />
-      <window_info content_ui="combo" id="Project" order="1" sideWeight="0.49790794" visible="true" weight="0.19624102" />
+      <window_info active="true" content_ui="combo" id="Project" order="1" sideWeight="0.49790794" visible="true" weight="0.19624102" />
       <window_info id="Structure" order="2" sideWeight="0.50209206" side_tool="true" weight="0.19181868" />
       <window_info anchor="bottom" id="CMake" order="0" weight="0.3294979" />
       <window_info anchor="bottom" id="Terminal" order="1" />
@@ -10276,7 +10272,7 @@
       <window_info anchor="bottom" id="Messages" order="4" weight="0.31799164" />
       <window_info anchor="bottom" id="Message" order="5" />
       <window_info anchor="bottom" id="Find" order="6" weight="0.3294979" />
-      <window_info active="true" anchor="bottom" id="Run" order="7" visible="true" weight="0.26987448" />
+      <window_info anchor="bottom" id="Run" order="7" visible="true" weight="0.26987448" />
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Debug" order="9" weight="0.39958158" />
       <window_info anchor="bottom" id="Cvs" order="10" weight="0.25" />
@@ -10478,8 +10474,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/EAProj/EA.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-8100">
-          <caret line="35" column="16" selection-start-line="35" selection-start-column="16" selection-end-line="35" selection-end-column="16" />
+        <state relative-caret-position="54">
+          <caret line="801" selection-start-line="801" selection-end-line="803" selection-end-column="32" />
           <folding>
             <element signature="e#28#46#0" expanded="true" />
             <element signature="e#10934#22443#0" />
