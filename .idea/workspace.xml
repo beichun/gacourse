@@ -1472,7 +1472,7 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="cpp" value="16254" />
+          <entry key="cpp" value="16268" />
           <entry key="txt" value="232" />
         </counts>
       </usages-collector>
@@ -1480,7 +1480,7 @@
         <counts>
           <entry key="CMakeLists.txt" value="199" />
           <entry key="Doxygen file" value="3" />
-          <entry key="ObjectiveC" value="16251" />
+          <entry key="ObjectiveC" value="16265" />
           <entry key="PLAIN_TEXT" value="33" />
         </counts>
       </usages-collector>
@@ -1506,8 +1506,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/EAProj/EA.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="126">
-              <caret line="797" column="33" lean-forward="true" selection-start-line="797" selection-start-column="33" selection-end-line="797" selection-end-column="33" />
+            <state relative-caret-position="216">
+              <caret line="35" column="15" selection-start-line="35" selection-start-column="15" selection-end-line="35" selection-end-column="15" />
               <folding>
                 <element signature="e#28#46#0" expanded="true" />
                 <element signature="e#24006#24018#0" expanded="true" />
@@ -10220,7 +10220,7 @@
       <workItem from="1543443706679" duration="47100000" />
       <workItem from="1543558830284" duration="35937000" />
       <workItem from="1543649389681" duration="100099000" />
-      <workItem from="1543995033929" duration="37990000" />
+      <workItem from="1543995033929" duration="39266000" />
     </task>
     <task id="LOCAL-00001" summary="add my files">
       <created>1542767417738</created>
@@ -10257,11 +10257,25 @@
       <option name="project" value="LOCAL" />
       <updated>1544083544631</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="first cube">
+      <created>1544084974558</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1544084974558</updated>
+    </task>
+    <task id="LOCAL-00007" summary="first cube">
+      <created>1544084997216</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1544084997216</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="265367000" />
+    <option name="totallyTimeSpent" value="266643000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -10490,8 +10504,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/EAProj/EA.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="797" column="33" lean-forward="true" selection-start-line="797" selection-start-column="33" selection-end-line="797" selection-end-column="33" />
+        <state relative-caret-position="216">
+          <caret line="35" column="15" selection-start-line="35" selection-start-column="15" selection-end-line="35" selection-end-column="15" />
           <folding>
             <element signature="e#28#46#0" expanded="true" />
             <element signature="e#24006#24018#0" expanded="true" />
