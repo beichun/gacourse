@@ -799,13 +799,13 @@ int main() {
 
     int num_frames = 1000;
     int skip_frames = 32;
-//    int num_evaluations = 2048*64;
-//    int population_size = 64*4;
-//    int selection_pressure = 64;
+    int num_evaluations = 2048*64;
+    int population_size = 64*4;
+    int selection_pressure = 64;
 
-    int num_evaluations = 64;
-    int population_size = 16;
-    int selection_pressure = 8;
+//    int num_evaluations = 64;
+//    int population_size = 16;
+//    int selection_pressure = 8;
 
     int num_generation = (num_evaluations- population_size)/selection_pressure+1;
 
