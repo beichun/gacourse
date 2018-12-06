@@ -1425,7 +1425,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="443a82b3-43bd-4f68-94db-fb98a9235e01" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EAProj/EA.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/EAProj/EA.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EAProj/best_fitness_history.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/eaproj.dir/EAProj/EA.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/eaproj.dir/EAProj/EA.cpp.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/eaproj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/eaproj" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -1472,14 +1476,14 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="cpp" value="15097" />
+          <entry key="cpp" value="16174" />
           <entry key="txt" value="232" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="CMakeLists.txt" value="199" />
-          <entry key="ObjectiveC" value="15097" />
+          <entry key="ObjectiveC" value="16174" />
           <entry key="PLAIN_TEXT" value="33" />
         </counts>
       </usages-collector>
@@ -1494,7 +1498,7 @@
         <entry file="file://$USER_HOME$/GAproj/ms1/cubebreathing/breathing.cpp">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-4723">
-              <caret line="130" lean-forward="true" selection-start-line="130" selection-end-line="130" />
+              <caret line="130" selection-start-line="130" selection-end-line="130" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -1505,15 +1509,12 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/EAProj/EA.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-8222">
-              <caret line="55" column="32" selection-start-line="55" selection-start-column="32" selection-end-line="55" selection-end-column="32" />
+            <state relative-caret-position="-8100">
+              <caret line="35" column="16" selection-start-line="35" selection-start-column="16" selection-end-line="35" selection-end-column="16" />
               <folding>
                 <element signature="e#28#46#0" expanded="true" />
                 <element signature="e#10934#22443#0" />
                 <element signature="e#24006#24018#0" expanded="true" />
-                <element signature="e#24337#24930#0" />
-                <element signature="e#24933#24950#0" />
-                <element signature="e#26779#27351#0" />
               </folding>
             </state>
           </provider>
@@ -1587,7 +1588,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>triangleVertex</find>
       <find>VectorXi</find>
       <find>cubeVertex</find>
       <find>num_vertices</find>
@@ -1617,6 +1617,7 @@
       <find>Eigen::ArrayXd springCoefb</find>
       <find>best_fitness_arr</find>
       <find>best_solution</find>
+      <find>stamp</find>
     </findStrings>
     <replaceStrings>
       <replace>ArrayX2dRowMajor</replace>
@@ -1677,16 +1678,6 @@
             <path>
               <item name="Tutorials" type="b2602c69:ProjectViewProjectNode" />
               <item name="ogl" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Tutorials" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ogl" type="462c0819:PsiDirectoryNode" />
-              <item name="EAProj" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Tutorials" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ogl" type="462c0819:PsiDirectoryNode" />
-              <item name="tutorial18_billboards_and_particles" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Tutorials" type="b2602c69:ProjectViewProjectNode" />
@@ -10233,7 +10224,7 @@
       <workItem from="1543443706679" duration="47100000" />
       <workItem from="1543558830284" duration="35937000" />
       <workItem from="1543649389681" duration="100099000" />
-      <workItem from="1543995033929" duration="16548000" />
+      <workItem from="1543995033929" duration="35994000" />
     </task>
     <task id="LOCAL-00001" summary="add my files">
       <created>1542767417738</created>
@@ -10260,7 +10251,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="243925000" />
+    <option name="totallyTimeSpent" value="263371000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -10478,7 +10469,7 @@
     <entry file="file://$USER_HOME$/GAproj/ms1/cubebreathing/breathing.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-4723">
-          <caret line="130" lean-forward="true" selection-start-line="130" selection-end-line="130" />
+          <caret line="130" selection-start-line="130" selection-end-line="130" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
@@ -10487,15 +10478,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/EAProj/EA.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-8222">
-          <caret line="55" column="32" selection-start-line="55" selection-start-column="32" selection-end-line="55" selection-end-column="32" />
+        <state relative-caret-position="-8100">
+          <caret line="35" column="16" selection-start-line="35" selection-start-column="16" selection-end-line="35" selection-end-column="16" />
           <folding>
             <element signature="e#28#46#0" expanded="true" />
             <element signature="e#10934#22443#0" />
             <element signature="e#24006#24018#0" expanded="true" />
-            <element signature="e#24337#24930#0" />
-            <element signature="e#24933#24950#0" />
-            <element signature="e#26779#27351#0" />
           </folding>
         </state>
       </provider>

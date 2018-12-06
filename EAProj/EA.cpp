@@ -32,9 +32,9 @@ typedef Eigen::Array<double,Eigen::Dynamic,Eigen::Dynamic,Eigen::RowMajor> Array
 GLFWwindow* window;
 
 //define object shape
-const int a = 1;
-const int b = 5;
-const int c = 1;
+const int a = 2;
+const int b = 20;
+const int c = 2;
 
 const int num_masses = (a+1)*(b+1)*(c+1);
 const int num_cubes = a*b*c;
@@ -46,14 +46,14 @@ const double Mass = 0.1;  //kg
 const double SpringConstraint = 1000;  //N/m
 const double Length = 0.1;
 const double w = 4*PI;
-const double CoefaRange = 0.02;
+const double CoefaRange = 0.01;
 const double CoefbRange = 2*PI;
 
 //friction coefficients for glass on glass
 const double Muk = 0.8;
 const double Mus = 1;
 
-const double InitialHeight = 0.0;
+const double InitialHeight = 0.5;
 const double InitialVelocityY = 0.0;
 const double TimeStep = 0.0005;  //s
 const double Gravity[3] = {0,0,-9.81};
@@ -757,16 +757,19 @@ Eigen::ArrayXi orderFitness(const Eigen::DenseBase<T>& values) {
 
 void savefitness(
         int generation_i,
-        double best_fitness){
+        double best_fitness,
+        std::string file_path){
     std::ofstream myfile;
-    if (generation_i==0)
-        myfile.open("best_fitness_history.txt");
-    else
-        myfile.open("best_fitness_history.txt",std::ios_base::app);
-    //myfile<<generation_i<<"\t"<<best_fitness<<std::endl;
-    myfile<<best_fitness<<std::endl;
+//    if (generation_i==0)
+//        myfile.open(file_path);
+//    else
+    myfile.open(file_path,std::ios_base::app);
+    myfile<<generation_i<<"\t"<<best_fitness<<std::endl;
+//    myfile<<best_fitness<<std::endl;
     myfile.close();
 }
+
+
 
 void savefitnesshistory(
         int generation_i,
@@ -781,6 +784,8 @@ void savefitnesshistory(
 }
 int main() {
 
+
+
     Eigen::ArrayXi cubeVertex = initCubeVertex();
     Eigen::ArrayXi triangleVertex = initTriangleVertex();
     ArrayX3dRowMajor baseMassPosition = initBaseMassPosition();
@@ -792,13 +797,17 @@ int main() {
             baseMassPosition);
     Eigen::ArrayXd l0 = initL0();
 
-
     int num_frames = 1000;
     int skip_frames = 32;
-    int num_evaluations = 2048*64;
-    int population_size = 128*4;
-    int selection_pressure = population_size / 2;
-    int num_generation = num_evaluations / population_size;
+//    int num_evaluations = 2048*64;
+//    int population_size = 64*4;
+//    int selection_pressure = 64;
+
+    int num_evaluations = 64;
+    int population_size = 16;
+    int selection_pressure = 8;
+
+    int num_generation = (num_evaluations- population_size)/selection_pressure+1;
 
     Eigen::ArrayXd best_fitness_arr(population_size);
 
@@ -814,6 +823,12 @@ int main() {
     std::uniform_int_distribution<> dis_cubes(0,num_cubes-1);
     std::uniform_real_distribution<> dis_coefa(0.0, CoefaRange);
     std::uniform_real_distribution<> dis_coefb(0.0, CoefbRange);
+
+    std::ostringstream ss;
+    ss<< dis(rd);
+    std::string random_string(ss.str());
+    std::string file_name_diversity = "./data/diversity_"+random_string+".txt";
+    std::string file_name_fitness = "./data/fitness_"+random_string+".txt";
 
 
     int best_solution = 0;
@@ -853,9 +868,23 @@ int main() {
 
 
 
+    int best_i = orderFitness(best_fitness_arr)(0);
+
+    Eigen::IOFormat print_formating(Eigen::FullPrecision,Eigen::DontAlignCols,",",",","","","",";");
+
+    std::cout<<"springCoefa<<"<<springCoefa_arr.row(best_i).transpose().format(print_formating)<<std::endl;
+    std::cout<<"springCoefb<<"<<springCoefb_arr.row(best_i).transpose().format(print_formating)<<std::endl<<std::endl;
+
+
+    best_fitness = best_fitness_arr(best_i);
+
+    int  num_evaluated= population_size;
+    savefitness(num_evaluated,best_fitness,file_name_fitness);
+
+
 
 //    #pragma omp parallel for
-    for (int i_generation = 0; i_generation < num_generation; i_generation++) {
+    for (int i_generation = 1; i_generation < num_generation; i_generation++) {
         Eigen::ArrayXi fitness_indices(population_size);
 
         fitness_indices = orderFitness(best_fitness_arr);
@@ -916,10 +945,12 @@ int main() {
                 best_fitness_arr(parent1) = fitness_child;
 
                 if (fitness_child > best_fitness) {
+                    best_i = parent1;
                     best_position_history = position_history_i;
-                    best_solution = parent1;
                     best_fitness = fitness_child;
                     std::cout<<"best = "<<best_fitness<<std::endl;
+                    std::cout<<"springCoefa<<"<<springCoefa_arr.row(best_i).transpose().format(print_formating)<<std::endl;
+                    std::cout<<"springCoefb<<"<<springCoefb_arr.row(best_i).transpose().format(print_formating)<<std::endl<<std::endl;
                 }
             } else {
                 int parent_for_replacement = fitness_indices(selection_pressure + j);
@@ -929,13 +960,19 @@ int main() {
                 // put it somewhere else
             }
         }
+        num_evaluated+=selection_pressure;
 
-        savefitness(i_generation,best_fitness);
+        savefitness(num_evaluated,best_fitness,file_name_fitness);
         //savefitnesshistory(i_generation,best_fitness_arr);
     }
     //std::cout<<best_position_history<<std::endl;
 
-    //std::cout<<springCoefa_arr<<std::endl;
+
+//    best_i = orderFitness(best_fitness_arr)(0);
+
+
+    std::cout<<"springCoefa<<"<<springCoefa_arr.row(best_i).transpose().format(print_formating)<<std::endl;
+    std::cout<<"springCoefb<<"<<springCoefb_arr.row(best_i).transpose().format(print_formating)<<std::endl<<std::endl;
 
     // render this in glfw
     render(best_position_history,
