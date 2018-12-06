@@ -33,7 +33,7 @@ GLFWwindow* window;
 
 //define object shape
 const int a = 3;
-const int b = 60;
+const int b = 40;
 const int c = 3;
 
 const int num_masses = (a+1)*(b+1)*(c+1);
@@ -800,7 +800,7 @@ int main() {
 
 
 
-    int num_frames = 1000;
+    int num_frames = 500;
     int skip_frames = 32;
     int num_evaluations = 2048*64;
     int population_size = 64*4;
