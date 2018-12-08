@@ -46,7 +46,7 @@ const double Mass = 0.1;  //kg
 const double SpringConstraint = 1000;  //N/m
 const double Length = 0.1;
 const double w = 4*PI;
-const double CoefaRange = 0.01;
+const double CoefaRange = 0.05;
 const double CoefbRange = 2*PI;
 
 //friction coefficients for glass on glass
@@ -802,13 +802,13 @@ int main() {
 ////////////////////////evolve////////////////////////////////////////////////////
     int num_frames = 500;
     int skip_frames = 32;
-//    int num_evaluations = 2048*64;
-//    int population_size = 64*4;
-//    int selection_pressure = 64;
+    int num_evaluations = 2048*64;
+    int population_size = 64*4;
+    int selection_pressure = 64*2;
 
-    int num_evaluations = 64*10;
-    int population_size = 16;
-    int selection_pressure = 8;
+//    int num_evaluations = 64*10;
+//    int population_size = 16;
+//    int selection_pressure = 8;
 
     int num_generation = (num_evaluations- population_size)/selection_pressure+1;
 
