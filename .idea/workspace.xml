@@ -1472,7 +1472,7 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="cpp" value="16519" />
+          <entry key="cpp" value="16532" />
           <entry key="txt" value="232" />
         </counts>
       </usages-collector>
@@ -1480,7 +1480,7 @@
         <counts>
           <entry key="CMakeLists.txt" value="199" />
           <entry key="Doxygen file" value="3" />
-          <entry key="ObjectiveC" value="16516" />
+          <entry key="ObjectiveC" value="16529" />
           <entry key="PLAIN_TEXT" value="33" />
         </counts>
       </usages-collector>
@@ -1506,11 +1506,10 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/EAProj/EA.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="504">
-              <caret line="48" column="30" selection-start-line="48" selection-start-column="30" selection-end-line="48" selection-end-column="30" />
+            <state relative-caret-position="216">
+              <caret line="35" column="16" selection-start-line="35" selection-start-column="16" selection-end-line="35" selection-end-column="16" />
               <folding>
                 <element signature="e#28#46#0" expanded="true" />
-                <element signature="e#11002#22492#0" />
                 <element signature="e#24006#24018#0" expanded="true" />
               </folding>
             </state>
@@ -1585,7 +1584,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>VectorXi</find>
       <find>cubeVertex</find>
       <find>num_vertices</find>
       <find>l0</find>
@@ -1615,6 +1613,7 @@
       <find>best_fitness_arr</find>
       <find>best_solution</find>
       <find>stamp</find>
+      <find>initialheight</find>
     </findStrings>
     <replaceStrings>
       <replace>ArrayX2dRowMajor</replace>
@@ -10222,7 +10221,7 @@
       <workItem from="1543558830284" duration="35937000" />
       <workItem from="1543649389681" duration="100099000" />
       <workItem from="1543995033929" duration="42750000" />
-      <workItem from="1544253262795" duration="4496000" />
+      <workItem from="1544253262795" duration="5623000" />
     </task>
     <task id="LOCAL-00001" summary="add my files">
       <created>1542767417738</created>
@@ -10305,7 +10304,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="274623000" />
+    <option name="totallyTimeSpent" value="275750000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -10528,11 +10527,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/EAProj/EA.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="504">
-          <caret line="48" column="30" selection-start-line="48" selection-start-column="30" selection-end-line="48" selection-end-column="30" />
+        <state relative-caret-position="216">
+          <caret line="35" column="16" selection-start-line="35" selection-start-column="16" selection-end-line="35" selection-end-column="16" />
           <folding>
             <element signature="e#28#46#0" expanded="true" />
-            <element signature="e#11002#22492#0" />
             <element signature="e#24006#24018#0" expanded="true" />
           </folding>
         </state>
