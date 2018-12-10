@@ -1425,10 +1425,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="443a82b3-43bd-4f68-94db-fb98a9235e01" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EAProj/EA.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/EAProj/EA.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/eaproj.dir/EAProj/EA.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/eaproj.dir/EAProj/EA.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/eaproj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/eaproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/eaproj.dir/EAProj/EA.cpp.o" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -1475,15 +1473,15 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="cpp" value="16555" />
+          <entry key="cpp" value="18583" />
           <entry key="txt" value="232" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="CMakeLists.txt" value="199" />
-          <entry key="Doxygen file" value="3" />
-          <entry key="ObjectiveC" value="16552" />
+          <entry key="Doxygen file" value="5" />
+          <entry key="ObjectiveC" value="18578" />
           <entry key="PLAIN_TEXT" value="33" />
         </counts>
       </usages-collector>
@@ -1494,90 +1492,14 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/GAproj/ms1/cubebreathing/breathing.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2340">
-              <caret line="130" selection-start-line="130" selection-end-line="130" />
-              <folding>
-                <element signature="e#0#18#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/EAProj/EA.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="304">
-              <caret line="802" column="25" lean-forward="true" selection-start-line="802" selection-start-column="25" selection-end-line="976" selection-end-column="32" />
+            <state relative-caret-position="492">
+              <caret line="1032" column="53" lean-forward="true" selection-start-line="1032" selection-start-column="53" selection-end-line="1032" selection-end-column="53" />
               <folding>
                 <element signature="e#28#46#0" expanded="true" />
                 <element signature="e#24006#24018#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/EAProj/StandardShading.fragmentshader">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tutorial06_keyboard_and_mouse/tutorial06.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="108">
-              <caret line="6" selection-start-line="6" selection-end-line="6" />
-              <folding>
-                <element signature="e#28#46#0" expanded="true" />
-                <element signature="e#182#204#0" expanded="true" />
-                <element signature="e#267#295#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tutorial04_colored_cube/tutorial04.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1674">
-              <caret line="93" column="26" selection-start-line="93" selection-start-column="26" selection-end-line="93" selection-end-column="26" />
-              <folding>
-                <element signature="e#182#204#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tutorial03_matrices/tutorial03.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1206">
-              <caret line="67" column="61" selection-start-line="67" selection-start-column="61" selection-end-line="67" selection-end-column="61" />
-              <folding>
-                <element signature="e#28#46#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="72">
-              <caret line="4" column="24" selection-start-line="4" selection-start-column="24" selection-end-line="4" selection-end-column="24" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tutorial09_vbo_indexing/tutorial09.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2250">
-              <caret line="125" selection-start-line="125" selection-end-line="129" selection-end-column="113" />
-              <folding>
-                <element signature="e#28#46#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -1587,11 +1509,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>cubeVertex</find>
-      <find>num_vertices</find>
-      <find>l0</find>
-      <find>num_masses</find>
-      <find>num_cubes</find>
       <find>gravity</find>
       <find>l0t</find>
       <find>applyGravity</find>
@@ -1617,6 +1534,11 @@
       <find>best_solution</find>
       <find>stamp</find>
       <find>initialheight</find>
+      <find>save</find>
+      <find>GL_ARRAY_BUFFER</find>
+      <find>VertexArrayID</find>
+      <find>colorbuffer</find>
+      <find>MVP</find>
     </findStrings>
     <replaceStrings>
       <replace>ArrayX2dRowMajor</replace>
@@ -1646,10 +1568,10 @@
   </component>
   <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="65" />
-    <option name="y" value="-4" />
-    <option name="width" value="1855" />
-    <option name="height" value="1084" />
+    <option name="x" value="222" />
+    <option name="y" value="488" />
+    <option name="width" value="1853" />
+    <option name="height" value="1076" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -10225,7 +10147,7 @@
       <workItem from="1543649389681" duration="100099000" />
       <workItem from="1543995033929" duration="42750000" />
       <workItem from="1544253262795" duration="6804000" />
-      <workItem from="1544289412092" duration="3536000" />
+      <workItem from="1544289412092" duration="37612000" />
     </task>
     <task id="LOCAL-00001" summary="add my files">
       <created>1542767417738</created>
@@ -10308,7 +10230,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="280467000" />
+    <option name="totallyTimeSpent" value="314543000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -10320,20 +10242,20 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="64" y="-11" width="1857" height="1092" extended-state="6" />
+    <frame x="65" y="-4" width="1375" height="2564" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Favorites" order="0" sideWeight="0.5007474" side_tool="true" weight="0.18960752" />
-      <window_info content_ui="combo" id="Project" order="1" sideWeight="0.49790794" visible="true" weight="0.20066334" />
-      <window_info id="Structure" order="2" sideWeight="0.50209206" side_tool="true" weight="0.19181868" />
+      <window_info content_ui="combo" id="Project" order="1" sideWeight="0.4972452" visible="true" weight="0.2731377" />
+      <window_info id="Structure" order="2" sideWeight="0.5027548" side_tool="true" visible="true" weight="0.2731377" />
       <window_info anchor="bottom" id="CMake" order="0" weight="0.3294979" />
       <window_info anchor="bottom" id="Terminal" order="1" />
       <window_info anchor="bottom" id="Event Log" order="2" sideWeight="0.5002764" side_tool="true" weight="0.3294979" />
       <window_info anchor="bottom" id="Version Control" order="3" weight="0.3294979" />
-      <window_info anchor="bottom" id="Messages" order="4" weight="0.3169456" />
+      <window_info anchor="bottom" id="Messages" order="4" weight="0.31691298" />
       <window_info anchor="bottom" id="Message" order="5" />
       <window_info anchor="bottom" id="Find" order="6" weight="0.3294979" />
-      <window_info active="true" anchor="bottom" id="Run" order="7" visible="true" weight="0.26987448" />
+      <window_info active="true" anchor="bottom" id="Run" order="7" visible="true" weight="0.10591133" />
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Debug" order="9" weight="0.39958158" />
       <window_info anchor="bottom" id="Cvs" order="10" weight="0.25" />
@@ -10467,30 +10389,8 @@
     <entry file="file://$USER_HOME$/GAproj/ms1/cubefreefall/cubefreefall.cpp">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$USER_HOME$/GAproj/ms1/cubebreathing/breathing.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2340">
-          <caret line="130" selection-start-line="130" selection-end-line="130" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/EAProj/StandardShading.fragmentshader">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tutorial06_keyboard_and_mouse/tutorial06.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="6" selection-start-line="6" selection-end-line="6" />
-          <folding>
-            <element signature="e#28#46#0" expanded="true" />
-            <element signature="e#182#204#0" expanded="true" />
-            <element signature="e#267#295#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tutorial04_colored_cube/tutorial04.cpp">
       <provider selected="true" editor-type-id="text-editor">
@@ -10529,10 +10429,32 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/tutorial06_keyboard_and_mouse/tutorial06.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2988">
+          <caret line="6" selection-start-line="6" selection-end-line="6" />
+          <folding>
+            <element signature="e#28#46#0" expanded="true" />
+            <element signature="e#182#204#0" expanded="true" />
+            <element signature="e#267#295#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/GAproj/ms1/cubebreathing/breathing.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="610">
+          <caret line="130" selection-start-line="130" selection-end-line="130" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/EAProj/EA.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="802" column="25" lean-forward="true" selection-start-line="802" selection-start-column="25" selection-end-line="976" selection-end-column="32" />
+        <state relative-caret-position="492">
+          <caret line="1032" column="53" lean-forward="true" selection-start-line="1032" selection-start-column="53" selection-end-line="1032" selection-end-column="53" />
           <folding>
             <element signature="e#28#46#0" expanded="true" />
             <element signature="e#24006#24018#0" expanded="true" />
