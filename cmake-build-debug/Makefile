@@ -56,18 +56,6 @@ CMAKE_BINARY_DIR = /home/bq2139/Documents/ogl/cmake-build-debug
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target install/local
-install/local: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/home/bq2139/Documents/clion-2018.2.6/bin/cmake/linux/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local
-
-# Special rule for the target install/local
-install/local/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/home/bq2139/Documents/clion-2018.2.6/bin/cmake/linux/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local/fast
-
 # Special rule for the target install
 install: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
@@ -112,6 +100,18 @@ edit_cache/fast: edit_cache
 
 .PHONY : edit_cache/fast
 
+# Special rule for the target install/local
+install/local: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/home/bq2139/Documents/clion-2018.2.6/bin/cmake/linux/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local
+
+# Special rule for the target install/local
+install/local/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/home/bq2139/Documents/clion-2018.2.6/bin/cmake/linux/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local/fast
+
 # Special rule for the target install/strip
 install/strip: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
@@ -155,6 +155,19 @@ preinstall/fast:
 depend:
 	$(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
+
+#=============================================================================
+# Target rules for targets named phasec
+
+# Build rule for target.
+phasec: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 phasec
+.PHONY : phasec
+
+# fast build rule for target.
+phasec/fast:
+	$(MAKE) -f CMakeFiles/phasec.dir/build.make CMakeFiles/phasec.dir/build
+.PHONY : phasec/fast
 
 #=============================================================================
 # Target rules for targets named tutorial18_billboards
@@ -18565,12 +18578,40 @@ EAProj/EA.cpp.s:
 	$(MAKE) -f CMakeFiles/eaproj.dir/build.make CMakeFiles/eaproj.dir/EAProj/EA.cpp.s
 .PHONY : EAProj/EA.cpp.s
 
+PhaseC/PhaseC.o: PhaseC/PhaseC.cpp.o
+
+.PHONY : PhaseC/PhaseC.o
+
+# target to build an object file
+PhaseC/PhaseC.cpp.o:
+	$(MAKE) -f CMakeFiles/phasec.dir/build.make CMakeFiles/phasec.dir/PhaseC/PhaseC.cpp.o
+.PHONY : PhaseC/PhaseC.cpp.o
+
+PhaseC/PhaseC.i: PhaseC/PhaseC.cpp.i
+
+.PHONY : PhaseC/PhaseC.i
+
+# target to preprocess a source file
+PhaseC/PhaseC.cpp.i:
+	$(MAKE) -f CMakeFiles/phasec.dir/build.make CMakeFiles/phasec.dir/PhaseC/PhaseC.cpp.i
+.PHONY : PhaseC/PhaseC.cpp.i
+
+PhaseC/PhaseC.s: PhaseC/PhaseC.cpp.s
+
+.PHONY : PhaseC/PhaseC.s
+
+# target to generate assembly for a file
+PhaseC/PhaseC.cpp.s:
+	$(MAKE) -f CMakeFiles/phasec.dir/build.make CMakeFiles/phasec.dir/PhaseC/PhaseC.cpp.s
+.PHONY : PhaseC/PhaseC.cpp.s
+
 common/controls.o: common/controls.cpp.o
 
 .PHONY : common/controls.o
 
 # target to build an object file
 common/controls.cpp.o:
+	$(MAKE) -f CMakeFiles/phasec.dir/build.make CMakeFiles/phasec.dir/common/controls.cpp.o
 	$(MAKE) -f CMakeFiles/tutorial18_billboards.dir/build.make CMakeFiles/tutorial18_billboards.dir/common/controls.cpp.o
 	$(MAKE) -f CMakeFiles/misc05_picking_custom.dir/build.make CMakeFiles/misc05_picking_custom.dir/common/controls.cpp.o
 	$(MAKE) -f CMakeFiles/tutorial09_AssImp.dir/build.make CMakeFiles/tutorial09_AssImp.dir/common/controls.cpp.o
@@ -18600,6 +18641,7 @@ common/controls.i: common/controls.cpp.i
 
 # target to preprocess a source file
 common/controls.cpp.i:
+	$(MAKE) -f CMakeFiles/phasec.dir/build.make CMakeFiles/phasec.dir/common/controls.cpp.i
 	$(MAKE) -f CMakeFiles/tutorial18_billboards.dir/build.make CMakeFiles/tutorial18_billboards.dir/common/controls.cpp.i
 	$(MAKE) -f CMakeFiles/misc05_picking_custom.dir/build.make CMakeFiles/misc05_picking_custom.dir/common/controls.cpp.i
 	$(MAKE) -f CMakeFiles/tutorial09_AssImp.dir/build.make CMakeFiles/tutorial09_AssImp.dir/common/controls.cpp.i
@@ -18629,6 +18671,7 @@ common/controls.s: common/controls.cpp.s
 
 # target to generate assembly for a file
 common/controls.cpp.s:
+	$(MAKE) -f CMakeFiles/phasec.dir/build.make CMakeFiles/phasec.dir/common/controls.cpp.s
 	$(MAKE) -f CMakeFiles/tutorial18_billboards.dir/build.make CMakeFiles/tutorial18_billboards.dir/common/controls.cpp.s
 	$(MAKE) -f CMakeFiles/misc05_picking_custom.dir/build.make CMakeFiles/misc05_picking_custom.dir/common/controls.cpp.s
 	$(MAKE) -f CMakeFiles/tutorial09_AssImp.dir/build.make CMakeFiles/tutorial09_AssImp.dir/common/controls.cpp.s
@@ -18760,6 +18803,7 @@ common/shader.o: common/shader.cpp.o
 
 # target to build an object file
 common/shader.cpp.o:
+	$(MAKE) -f CMakeFiles/phasec.dir/build.make CMakeFiles/phasec.dir/common/shader.cpp.o
 	$(MAKE) -f CMakeFiles/tutorial18_billboards.dir/build.make CMakeFiles/tutorial18_billboards.dir/common/shader.cpp.o
 	$(MAKE) -f CMakeFiles/misc05_picking_custom.dir/build.make CMakeFiles/misc05_picking_custom.dir/common/shader.cpp.o
 	$(MAKE) -f CMakeFiles/tutorial09_AssImp.dir/build.make CMakeFiles/tutorial09_AssImp.dir/common/shader.cpp.o
@@ -18794,6 +18838,7 @@ common/shader.i: common/shader.cpp.i
 
 # target to preprocess a source file
 common/shader.cpp.i:
+	$(MAKE) -f CMakeFiles/phasec.dir/build.make CMakeFiles/phasec.dir/common/shader.cpp.i
 	$(MAKE) -f CMakeFiles/tutorial18_billboards.dir/build.make CMakeFiles/tutorial18_billboards.dir/common/shader.cpp.i
 	$(MAKE) -f CMakeFiles/misc05_picking_custom.dir/build.make CMakeFiles/misc05_picking_custom.dir/common/shader.cpp.i
 	$(MAKE) -f CMakeFiles/tutorial09_AssImp.dir/build.make CMakeFiles/tutorial09_AssImp.dir/common/shader.cpp.i
@@ -18828,6 +18873,7 @@ common/shader.s: common/shader.cpp.s
 
 # target to generate assembly for a file
 common/shader.cpp.s:
+	$(MAKE) -f CMakeFiles/phasec.dir/build.make CMakeFiles/phasec.dir/common/shader.cpp.s
 	$(MAKE) -f CMakeFiles/tutorial18_billboards.dir/build.make CMakeFiles/tutorial18_billboards.dir/common/shader.cpp.s
 	$(MAKE) -f CMakeFiles/misc05_picking_custom.dir/build.make CMakeFiles/misc05_picking_custom.dir/common/shader.cpp.s
 	$(MAKE) -f CMakeFiles/tutorial09_AssImp.dir/build.make CMakeFiles/tutorial09_AssImp.dir/common/shader.cpp.s
@@ -18922,6 +18968,7 @@ common/texture.o: common/texture.cpp.o
 
 # target to build an object file
 common/texture.cpp.o:
+	$(MAKE) -f CMakeFiles/phasec.dir/build.make CMakeFiles/phasec.dir/common/texture.cpp.o
 	$(MAKE) -f CMakeFiles/tutorial18_billboards.dir/build.make CMakeFiles/tutorial18_billboards.dir/common/texture.cpp.o
 	$(MAKE) -f CMakeFiles/misc05_picking_custom.dir/build.make CMakeFiles/misc05_picking_custom.dir/common/texture.cpp.o
 	$(MAKE) -f CMakeFiles/tutorial09_AssImp.dir/build.make CMakeFiles/tutorial09_AssImp.dir/common/texture.cpp.o
@@ -18952,6 +18999,7 @@ common/texture.i: common/texture.cpp.i
 
 # target to preprocess a source file
 common/texture.cpp.i:
+	$(MAKE) -f CMakeFiles/phasec.dir/build.make CMakeFiles/phasec.dir/common/texture.cpp.i
 	$(MAKE) -f CMakeFiles/tutorial18_billboards.dir/build.make CMakeFiles/tutorial18_billboards.dir/common/texture.cpp.i
 	$(MAKE) -f CMakeFiles/misc05_picking_custom.dir/build.make CMakeFiles/misc05_picking_custom.dir/common/texture.cpp.i
 	$(MAKE) -f CMakeFiles/tutorial09_AssImp.dir/build.make CMakeFiles/tutorial09_AssImp.dir/common/texture.cpp.i
@@ -18982,6 +19030,7 @@ common/texture.s: common/texture.cpp.s
 
 # target to generate assembly for a file
 common/texture.cpp.s:
+	$(MAKE) -f CMakeFiles/phasec.dir/build.make CMakeFiles/phasec.dir/common/texture.cpp.s
 	$(MAKE) -f CMakeFiles/tutorial18_billboards.dir/build.make CMakeFiles/tutorial18_billboards.dir/common/texture.cpp.s
 	$(MAKE) -f CMakeFiles/misc05_picking_custom.dir/build.make CMakeFiles/misc05_picking_custom.dir/common/texture.cpp.s
 	$(MAKE) -f CMakeFiles/tutorial09_AssImp.dir/build.make CMakeFiles/tutorial09_AssImp.dir/common/texture.cpp.s
@@ -19780,11 +19829,12 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
-	@echo "... install/local"
 	@echo "... install"
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
+	@echo "... install/local"
+	@echo "... phasec"
 	@echo "... install/strip"
 	@echo "... tutorial18_billboards"
 	@echo "... misc05_picking_custom"
@@ -21203,6 +21253,9 @@ help:
 	@echo "... EAProj/EA.o"
 	@echo "... EAProj/EA.i"
 	@echo "... EAProj/EA.s"
+	@echo "... PhaseC/PhaseC.o"
+	@echo "... PhaseC/PhaseC.i"
+	@echo "... PhaseC/PhaseC.s"
 	@echo "... common/controls.o"
 	@echo "... common/controls.i"
 	@echo "... common/controls.s"

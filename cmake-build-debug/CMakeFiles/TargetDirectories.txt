@@ -1,8 +1,9 @@
-/home/bq2139/Documents/ogl/cmake-build-debug/CMakeFiles/install/local.dir
 /home/bq2139/Documents/ogl/cmake-build-debug/CMakeFiles/install.dir
 /home/bq2139/Documents/ogl/cmake-build-debug/CMakeFiles/list_install_components.dir
 /home/bq2139/Documents/ogl/cmake-build-debug/CMakeFiles/rebuild_cache.dir
 /home/bq2139/Documents/ogl/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/bq2139/Documents/ogl/cmake-build-debug/CMakeFiles/install/local.dir
+/home/bq2139/Documents/ogl/cmake-build-debug/CMakeFiles/phasec.dir
 /home/bq2139/Documents/ogl/cmake-build-debug/CMakeFiles/install/strip.dir
 /home/bq2139/Documents/ogl/cmake-build-debug/CMakeFiles/tutorial18_billboards.dir
 /home/bq2139/Documents/ogl/cmake-build-debug/CMakeFiles/misc05_picking_custom.dir

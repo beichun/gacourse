@@ -676,7 +676,22 @@ target_link_libraries(eaproj
 	${ALL_LIBS}
 )
 
+# add phase C
+add_executable(phasec
+		PhaseC/PhaseC.cpp
+		common/shader.cpp
+		common/shader.hpp
+		common/texture.cpp
+		common/texture.hpp
+		common/controls.cpp
+		common/controls.hpp
+		PhaseC/StandardShading.fragmentshader
+		PhaseC/StandardShading.vertexshader
+		)
 
+target_link_libraries(phasec
+		${ALL_LIBS}
+		)
 
 
 SOURCE_GROUP(common REGULAR_EXPRESSION ".*/common/.*" )
